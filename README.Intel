@@ -1,0 +1,30 @@
+Code Signing and Intel SOF Binaries
+===================================
+
+Code signing is a mandatory feature on all Intel audio DSPs from Skylake
+architecture onwards. Code that is not signed by Intel, OEM or the OTC public
+key will not therefore be able to run (signing key used depends on hardware).
+
+Most hardware vendors will use the default Intel signing key. This means only
+Intel can sign firmware for these devices i.e. every SOF release and snapshot.
+
+Some hardware vendors will install the public key so that developers can build
+and sign their own firmware. Examples of such hardware are all recent
+Chromebooks using Intel processors and development boards like the "UP^2" and
+"UP Extreme". These devices are recommended for SOF development using Intel
+hardware.
+
+Older Intel audio DSPs like Merrifield, Baytrail, Braswell, Cherrytrail,
+Haswell and Broadwell don't have the code signing feature. Code signing is also
+not enabled on the Intel S1000 aka Sue Creek DSP.
+
+Intel firmware directories are partitioned to reflect the signing authority
+for each file i.e.
+
+toplevel version --+--> intel-signed ----> All files under here signed by Intel
+                   |
+                   +--> public-signed ---> All files here signed using public
+                   |                       development key.
+                   |
+                   +--> Unsigned binaries for platforms that dont have code
+                        signing enabled.
