@@ -12,7 +12,7 @@ binaries and pre-compiled topologies for snapshot, stable and LTS releases.
 
 # Repository Layout
 
-There are four type of SOF release.
+There are four types of SOF releases.
 
 1) stable - fully validated release with updates for 6 months. Deleted 3 months
             after updates end.
