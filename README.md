@@ -12,7 +12,7 @@ binaries and pre-compiled topologies for snapshot, stable and LTS releases.
 
 # Repository Layout
 
-There are four type of SOF release.
+There are four types of SOF releases.
 
 1) stable - fully validated release with updates for 6 months. Deleted 3 months
             after updates end.
@@ -54,6 +54,15 @@ repository.
 The nightly nightly snapshot branch will have a date tag vDDMMYYYY. The same
 date tag format will be used by vendor snapshots too.
 
+Probably you need to clone a specific branch instead of cloning the default master branch.
+For example, to clone a stable branch, you can do:
+```
+git clone -b stable-v1.4.2 https://github.com/thesofproject/sof-bin.git
+```
+After that, change to the created directory and execute the script:
+```
+sudo ./go.sh
+```
 # Archived Releases
 
 Each release currently takes up about 7MB and would quickly fill up and slow
