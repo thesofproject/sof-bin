@@ -20,5 +20,5 @@
 #    files (e.g. signed public releases should match signed intel releases).
 #    "publish" rule. 
 
-echo "Nothing implemeted"
+echo "Nothing implemented"
 
