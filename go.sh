@@ -43,6 +43,7 @@ ln -s ${SOF_VERSION}/intel-signed/sof-cnl-${SOF_VERSION}.ri sof-cfl.ri
 ln -s ${SOF_VERSION}/intel-signed/sof-cnl-${SOF_VERSION}.ri sof-cnl.ri
 ln -s ${SOF_VERSION}/intel-signed/sof-cnl-${SOF_VERSION}.ri sof-cml.ri
 ln -s ${SOF_VERSION}/intel-signed/sof-icl-${SOF_VERSION}.ri sof-icl.ri
+ln -s ${SOF_VERSION}/intel-signed/sof-tgl-${SOF_VERSION}.ri sof-tgl.ri
 
 cd ..
 ln -s sof-tplg-${SOF_VERSION} sof-tplg
