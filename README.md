@@ -68,6 +68,6 @@ sudo ./go.sh
 Each release currently takes up about 7MB and would quickly fill up and slow
 down the repository with old data. Therefore SOF stable releases will be also
 available on github whilst nightly and snapshot releases may be available on
-vendor servers (in line with any vendor build/signing cadence). Old relese
+vendor servers (in line with any vendor build/signing cadence). Old release
 branches will be deleted.
 
