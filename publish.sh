@@ -92,7 +92,7 @@ rename -v "s/\.ri$/-""$RELEASE_VERSION"".ri/" "$BIN_DIR/$INTEL_SIGNED_DIR/"*.ri
 [[ "$TOOLS_SRC_DIR" ]] && cp "$TOOLS_SRC_DIR"/sof-* "$BIN_DIR/$TOOLS_DIR"
 
 # reset the file mode
-chmod 644 "$BIN_DIR/$SOF_FW_DIR/"*.ri "$BIN_DIR/$PUBLIC_SIGNED_DIR/"*.ri "$BIN_DIR/$INTEL_SIGNED_DIR/"*.ri "$BIN_DIR/$TPLG_DIR"/*.tplg
+chmod 644 "$BIN_DIR/$SOF_FW_DIR/"*.ri "$BIN_DIR/$SOF_FW_DIR/"*.ldc "$BIN_DIR/$PUBLIC_SIGNED_DIR/"*.ri "$BIN_DIR/$INTEL_SIGNED_DIR/"*.ri "$BIN_DIR/$TPLG_DIR"/*.tplg
 chmod 755 "$BIN_DIR/$TOOLS_DIR"/sof-*
 
 # create check sum files
