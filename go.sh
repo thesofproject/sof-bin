@@ -45,7 +45,9 @@ ln -s ${SOF_VERSION}/intel-signed/sof-cnl-${SOF_VERSION}.ri sof-cfl.ri
 ln -s ${SOF_VERSION}/intel-signed/sof-cnl-${SOF_VERSION}.ri sof-cnl.ri
 ln -s ${SOF_VERSION}/intel-signed/sof-cnl-${SOF_VERSION}.ri sof-cml.ri
 ln -s ${SOF_VERSION}/intel-signed/sof-icl-${SOF_VERSION}.ri sof-icl.ri
+ln -s ${SOF_VERSION}/intel-signed/sof-jsl-${SOF_VERSION}.ri sof-jsl.ri
 ln -s ${SOF_VERSION}/intel-signed/sof-tgl-${SOF_VERSION}.ri sof-tgl.ri
+ln -s ${SOF_VERSION}/intel-signed/sof-ehl-${SOF_VERSION}.ri sof-ehl.ri
 # link community-signed binary
 mkdir -p ${ROOT}/${INTEL_PATH}/sof/community/
 cd ${ROOT}/${INTEL_PATH}/sof/community/
@@ -55,7 +57,9 @@ ln -s ../${SOF_VERSION}/public-signed/sof-cnl-${SOF_VERSION}.ri sof-cfl.ri
 ln -s ../${SOF_VERSION}/public-signed/sof-cnl-${SOF_VERSION}.ri sof-cnl.ri
 ln -s ../${SOF_VERSION}/public-signed/sof-cnl-${SOF_VERSION}.ri sof-cml.ri
 ln -s ../${SOF_VERSION}/public-signed/sof-icl-${SOF_VERSION}.ri sof-icl.ri
+ln -s ../${SOF_VERSION}/public-signed/sof-jsl-${SOF_VERSION}.ri sof-jsl.ri
 ln -s ../${SOF_VERSION}/public-signed/sof-tgl-${SOF_VERSION}.ri sof-tgl.ri
+ln -s ../${SOF_VERSION}/public-signed/sof-tgl-${SOF_VERSION}.ri sof-ehl.ri
 
 cd ${ROOT}/${INTEL_PATH}/
 ln -s sof-tplg-${SOF_VERSION} sof-tplg
