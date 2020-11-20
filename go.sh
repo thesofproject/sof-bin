@@ -34,9 +34,11 @@ cp -rf intel ${ROOT}/lib/firmware
 # add symlinks
 cd ${ROOT}/${INTEL_PATH}/sof
 
+# link un-signed binary
 ln -s ${SOF_VERSION}/sof-bdw-${SOF_VERSION}.ri sof-bdw.ri
 ln -s ${SOF_VERSION}/sof-byt-${SOF_VERSION}.ri sof-byt.ri
 ln -s ${SOF_VERSION}/sof-cht-${SOF_VERSION}.ri sof-cht.ri
+# link intel-signed binary
 ln -s ${SOF_VERSION}/intel-signed/sof-apl-${SOF_VERSION}.ri sof-apl.ri
 ln -s ${SOF_VERSION}/intel-signed/sof-apl-${SOF_VERSION}.ri sof-glk.ri
 ln -s ${SOF_VERSION}/intel-signed/sof-cnl-${SOF_VERSION}.ri sof-cfl.ri
@@ -44,8 +46,18 @@ ln -s ${SOF_VERSION}/intel-signed/sof-cnl-${SOF_VERSION}.ri sof-cnl.ri
 ln -s ${SOF_VERSION}/intel-signed/sof-cnl-${SOF_VERSION}.ri sof-cml.ri
 ln -s ${SOF_VERSION}/intel-signed/sof-icl-${SOF_VERSION}.ri sof-icl.ri
 ln -s ${SOF_VERSION}/intel-signed/sof-tgl-${SOF_VERSION}.ri sof-tgl.ri
+# link community-signed binary
+mkdir -p ${ROOT}/${INTEL_PATH}/sof/community/
+cd ${ROOT}/${INTEL_PATH}/sof/community/
+ln -s ../${SOF_VERSION}/public-signed/sof-apl-${SOF_VERSION}.ri sof-apl.ri
+ln -s ../${SOF_VERSION}/public-signed/sof-apl-${SOF_VERSION}.ri sof-glk.ri
+ln -s ../${SOF_VERSION}/public-signed/sof-cnl-${SOF_VERSION}.ri sof-cfl.ri
+ln -s ../${SOF_VERSION}/public-signed/sof-cnl-${SOF_VERSION}.ri sof-cnl.ri
+ln -s ../${SOF_VERSION}/public-signed/sof-cnl-${SOF_VERSION}.ri sof-cml.ri
+ln -s ../${SOF_VERSION}/public-signed/sof-icl-${SOF_VERSION}.ri sof-icl.ri
+ln -s ../${SOF_VERSION}/public-signed/sof-tgl-${SOF_VERSION}.ri sof-tgl.ri
 
-cd ..
+cd ${ROOT}/${INTEL_PATH}/
 ln -s sof-tplg-${SOF_VERSION} sof-tplg
 
 echo "Done installing Intel firmware and topology $SOF_VERSION"
