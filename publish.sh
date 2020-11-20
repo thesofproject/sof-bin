@@ -5,7 +5,7 @@
 # stop on most errors
 set -e
 
-RELEASE_PLATFORMS=(byt cht bdw apl cnl icl tgl)
+RELEASE_PLATFORMS=(byt cht bdw apl cnl icl jsl tgl ehl)
 
 BIN_DIR=$(pwd)
 
@@ -69,11 +69,15 @@ do
     byt | cht | bdw)
       [[ "$PUBLIC_SIGNED_SRC_DIR" ]] && cp "$PUBLIC_SIGNED_SRC_DIR/sof-$platform.ri" "$PUBLIC_SIGNED_SRC_DIR/sof-$platform.ldc" "$BIN_DIR/$SOF_FW_DIR"
       ;;
-    apl | cnl | icl | tgl)
+    apl | cnl | icl | tgl | jsl)
       [[ "$PUBLIC_SIGNED_SRC_DIR" ]] && cp "$PUBLIC_SIGNED_SRC_DIR/sof-$platform.ldc" "$BIN_DIR/$SOF_FW_DIR"
       [[ "$PUBLIC_SIGNED_SRC_DIR" ]] && cp "$PUBLIC_SIGNED_SRC_DIR/sof-$platform.ri" "$BIN_DIR/$PUBLIC_SIGNED_DIR"
       [[ "$INTEL_SIGNED_SRC_DIR" ]] && cp "$INTEL_SIGNED_SRC_DIR/sof-$platform.ri" "$BIN_DIR/$INTEL_SIGNED_DIR"
       ;;
+    # ehl is same binary with tgl but different intel key to sign
+    ehl)
+      [[ "$INTEL_SIGNED_SRC_DIR" ]] && cp "$INTEL_SIGNED_SRC_DIR/sof-$platform.ldc" "$BIN_DIR/$SOF_FW_DIR"
+      [[ "$INTEL_SIGNED_SRC_DIR" ]] && cp "$INTEL_SIGNED_SRC_DIR/sof-$platform.ri" "$BIN_DIR/$INTEL_SIGNED_DIR"
   esac
 done
 
