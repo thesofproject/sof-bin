@@ -10,12 +10,11 @@ adba247a93c74427d8647e723deb18f713bbde99  /home/pxl/work/sof/sof-bin/lib/firmwar
 8ddb21bd2ba1c8e6aaeecb22f75323cf9e6a33bb  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6/sof-icl-v1.6.ldc
 8ddb21bd2ba1c8e6aaeecb22f75323cf9e6a33bb  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6/sof-jsl-v1.6.ldc
 adba247a93c74427d8647e723deb18f713bbde99  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6/sof-tgl-v1.6.ldc
-25b58d2aeb7819af74599e1053376bd727eb42f9  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6/intel-signed/sof-apl-v1.6.ri
-be4991adaa5369c896400c10f0812ff980e015aa  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6/intel-signed/sof-cnl-v1.6.ri
+c516e952a6ec95d1545c7a5f119250b1d648b3c6  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6/intel-signed/sof-apl-v1.6.ri
+c9d55574f3120d3b86c30d8e1c0f0e6091082170  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6/intel-signed/sof-cnl-v1.6.ri
 0e0d64fa88c6c1a6687d2750accbd4fe87edb395  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6/intel-signed/sof-ehl-v1.6.ri
-28a834fe2147109ad7aa46bcb57956e886b80131  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6/intel-signed/sof-icl-v1.6.ri
-8377a1f552b96fb5e87586b477a30da2b462f91d  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6/intel-signed/sof-jsl-v1.6.ri
-f9636c20a9d81b0ddea40c05c44b166bd74de2bf  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6/intel-signed/sof-tgl-v1.6.ri
+1c01efd2c4f5a59cc6ac6936fa4ba3411830ea4e  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6/intel-signed/sof-icl-v1.6.ri
+31503b419e3d0df95995fc84ca81d7572105e6a1  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6/intel-signed/sof-tgl-v1.6.ri
 c220953d9214404c5945e9eb6a8b9e9c306e13bf  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6/public-signed/sof-apl-v1.6.ri
 6f95d13538630e1f6708f6b6e7fa03297a05a058  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6/public-signed/sof-cnl-v1.6.ri
 03a2c203eaa2f20e1a9a937ee00e6b17791138d0  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6/public-signed/sof-icl-v1.6.ri
