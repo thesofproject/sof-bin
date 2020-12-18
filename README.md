@@ -17,9 +17,17 @@ stable-v1.6.1 branch. If you want to install this manually instead of from your
 distribution then please follow these instructions
 
 ```
-git checkout stable-v1.6.1
+git clone https://github.com/thesofproject/sof-bin.git
+cd sof-bin
+git checkout origin/stable-v1.6.1 -b stable-v1.6.1
 sudo ./go.sh
 ```
+
+alternatively zip and tar files are available to download.
+
+https://github.com/thesofproject/sof-bin/releases/tag/v1.6.1
+
+These files can be uncompressed and the go.sh can be executed as above.
 
 At this point please the firmware, topologies are all installed
 and available to be used.
