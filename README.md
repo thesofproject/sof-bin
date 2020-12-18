@@ -10,6 +10,37 @@ intended for packagers, release engineers, testers and devlopers.
 The intention is to store all pre-compiled (and signed if neccesary) firmware
 binaries and pre-compiled topologies for snapshot, stable and LTS releases.
 
+# Installation
+
+The latest SOF release is version 1.6.1 and is available here on the
+stable-v1.6.1 branch. If you want to install this manually instead of from your
+distribution then please follow these instructions
+
+```
+git checkout stable-v1.6.1
+sudo ./go.sh
+```
+
+At this point please the firmware, topologies are all installed
+and available to be used.
+
+You may need to tell the SOF kernel driver about the new firmware and
+this ca be done by unloading and reloading the modules as follows.
+
+```
+sudo modprobe -r snd_sof_pci
+sudo modprobe snd_sof_pci
+```
+or
+
+```
+sudo modprobe -r snd_sof_acpi
+sudo modprobe snd_sof_acpi
+```
+
+If above does not work then rebooting your device will also reload the
+SOF driver.
+
 # Repository Layout
 
 There are four types of SOF releases.
