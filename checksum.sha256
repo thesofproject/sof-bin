@@ -8,6 +8,7 @@ cd49bfe94a96a6720d4dd5c926a03e73af2ab4c3c2cc80abc39534dc6c928c70  /home/pxl/work
 cb008665261017955e98ab7e3e6b167dc13b74059b1b2bce0da6f4925c5341e7  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6.1/sof-cnl-v1.6.1.ldc
 69e66845191ed7b833ebc3bd781ad147acc9d4f8cbb11c2126060219b02c153e  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6.1/sof-ehl-v1.6.1.ldc
 21cdf95681a84ce5f6383458a28a23292eca4dfd8c59092509044b3cd1ad4e10  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6.1/sof-icl-v1.6.1.ldc
+21cdf95681a84ce5f6383458a28a23292eca4dfd8c59092509044b3cd1ad4e10  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6.1/sof-jsl-v1.6.1.ldc
 69e66845191ed7b833ebc3bd781ad147acc9d4f8cbb11c2126060219b02c153e  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6.1/sof-tgl-v1.6.1.ldc
 2b2e1dde1747eb84687a247526079aa12282defe4ba9e92c6925064cf3a46776  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6.1/intel-signed/sof-apl-v1.6.1.ri
 a47ebc6ff4b81459174c4917a8913dc9eb38300a91f5e9d61f1af04ed31bfdbf  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6.1/intel-signed/sof-cnl-v1.6.1.ri
@@ -17,6 +18,7 @@ ad98687cb67387f6149cfd880463d4518b6aaa2854c2ddf78b975f703c0aefb4  /home/pxl/work
 9e449427e90198869887ecbe6bb0c616abae7f5cc530a0ab2780b0533600a890  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6.1/public-signed/sof-apl-v1.6.1.ri
 a03030f2a1184ed5b77dce76811003e591e81a07f6ba74b1a0dd8dd6888360a1  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6.1/public-signed/sof-cnl-v1.6.1.ri
 0302a911590e8e02273888f315ebdefaf45060c9538c9f1149e21ace488ba87e  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6.1/public-signed/sof-icl-v1.6.1.ri
+0b2c26ff3ace1b00213bfcf87097d70f46250fd90086ee951ddaf2dd9d834fc1  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6.1/public-signed/sof-jsl-v1.6.1.ri
 12388a865bf79909a797c71d81550c3eac32fa69c25af9d7254a694009e0cb08  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6.1/public-signed/sof-tgl-v1.6.1.ri
 986f8596639f919c2b92a55ac269feb635fee1a2f7762a491a151fe7975ba12c  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof-tplg-v1.6.1/sof-apl-asrc-pcm512x.tplg
 ecaf7b3fb73a4ac8d5d0ae5467555c6dc8a4c0f4ceea47e0d82500a7e9eeeebd  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof-tplg-v1.6.1/sof-apl-asrc-wm8804.tplg

@@ -8,6 +8,7 @@ ebe9a1acd68a6b0f6bfa29ba73d76894c6eeea37  /home/pxl/work/sof/sof-bin/lib/firmwar
 25531823485ef15eeac08be04cfd93de4b7ceba4  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6.1/sof-cnl-v1.6.1.ldc
 d4c8192cfd2c1149d054b40a6d0743bff20a6db9  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6.1/sof-ehl-v1.6.1.ldc
 4ad17e944da76e21d5e120039cad6da55b583f6f  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6.1/sof-icl-v1.6.1.ldc
+4ad17e944da76e21d5e120039cad6da55b583f6f  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6.1/sof-jsl-v1.6.1.ldc
 d4c8192cfd2c1149d054b40a6d0743bff20a6db9  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6.1/sof-tgl-v1.6.1.ldc
 8424c2a127bd5cf6e33bc5a38d39c4cac3c90e6f  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6.1/intel-signed/sof-apl-v1.6.1.ri
 85d6de93b652908aad0d3884908d8a969256879d  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6.1/intel-signed/sof-cnl-v1.6.1.ri
@@ -17,6 +18,7 @@ b4953af6c0c41e5dbd1bbcc8e52a0b844a99c85f  /home/pxl/work/sof/sof-bin/lib/firmwar
 a359122070425dd0e4aab88579f77c72ddc37a34  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6.1/public-signed/sof-apl-v1.6.1.ri
 883c3657a45074f06544b2e9cee43693f66e7324  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6.1/public-signed/sof-cnl-v1.6.1.ri
 e46d73283b9ba5b0b20d9ecb267a55a364936119  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6.1/public-signed/sof-icl-v1.6.1.ri
+ddecdd13e11e2e342c1215bb2069c84db4355a96  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6.1/public-signed/sof-jsl-v1.6.1.ri
 6b54ec57f8a01f85e5ce4462b3a6054f9216fa73  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof/v1.6.1/public-signed/sof-tgl-v1.6.1.ri
 a4e5bfd52516d06acb0bfa71f5e42c8e6bb22236  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof-tplg-v1.6.1/sof-apl-asrc-pcm512x.tplg
 af8f67d87b53a0c9d9f6939c125ffaae44415c0b  /home/pxl/work/sof/sof-bin/lib/firmware/intel/sof-tplg-v1.6.1/sof-apl-asrc-wm8804.tplg
