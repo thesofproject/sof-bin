@@ -5,10 +5,14 @@
 # stop on most errors
 set -e
 
+SOF_RI_INFO_URL="https://raw.githubusercontent.com/thesofproject/sof/master/tools/sof_ri_info/sof_ri_info.py"
+
 # Need to check and update the release platforms
 NO_SIGNED_PLATFORMS=(byt cht bdw)
 PUBLIC_SIGNED_PLATFORMS=(apl cnl icl jsl tgl)
 INTEL_SIGNED_PLATFORMS=(apl cnl icl tgl ehl)
+
+ISSUED_PLATFORMS=""
 
 BIN_DIR=$(pwd)
 
@@ -32,23 +36,47 @@ usage: build.sh [options] platform(s)
        -p public signed FW source
        -t tools binary source
        -l tplg binary source
+       -c check only
 EOF
 }
 
-while getopts "v:i:p:t:l:" OPTION; do
+check_fw()
+{
+  target_key="$1"
+  ri_path="$2"
+  ri_name=$(basename $ri_path)
+
+  echo "========================================================================"
+  echo "checking $ri_path"
+
+  if [[ ! -f "$ri_path" ]]; then
+    echo "$ri_name does not exist"
+    ISSUED_PLATFORMS="$ISSUED_PLATFORMS [$target_key]$ri_name(file not exist)"
+    return
+  fi
+
+  USING_KEY=$(python3 "$RI_INFO" "$ri_path" | grep Modulus -A 1 | tail -1)
+  echo ${USING_KEY}
+  if echo ${USING_KEY} | grep -qi "$target_key"; then
+    echo "$ri_name get correct key"
+  else
+    echo "$ri_name get wrong key"
+    ISSUED_PLATFORMS="$ISSUED_PLATFORMS [$target_key]$ri_name(wrong key)"
+  fi
+}
+
+while getopts "v:i:p:t:l:c" OPTION; do
   case "$OPTION" in
-    v) RELEASE_VERSION=$OPTARG ;;
-    i) INTEL_SIGNED_SRC_DIR=$OPTARG ;;
-    p) PUBLIC_SIGNED_SRC_DIR=$OPTARG ;;
-    t) TOOLS_SRC_DIR=$OPTARG ;;
-    l) TPLG_SRC_DIR=$OPTARG ;;
+    v) RELEASE_VERSION=${OPTARG%%/} ;;
+    i) INTEL_SIGNED_SRC_DIR=${OPTARG%%/} ;;
+    p) PUBLIC_SIGNED_SRC_DIR=${OPTARG%%/} ;;
+    t) TOOLS_SRC_DIR=${OPTARG%%/} ;;
+    l) TPLG_SRC_DIR=${OPTARG%%/} ;;
+    c) CHECK_ONLY=true ;;
     *) print_usage; exit 1 ;;
   esac
 done
 shift $((OPTIND-1))
-
-# checkout branch
-[[ $(git branch --show-current) == "stable-$RELEASE_VERSION" ]] || git checkout -b "stable-$RELEASE_VERSION"
 
 # define folders
 SOF_FW_DIR="lib/firmware/intel/sof/$RELEASE_VERSION"
@@ -57,6 +85,38 @@ INTEL_SIGNED_DIR="$SOF_FW_DIR/intel-signed"
 TPLG_DIR="lib/firmware/intel/sof-tplg-$RELEASE_VERSION"
 TOOLS_DIR="tools/$RELEASE_VERSION"
 
+# prepare binary check tmp ENV
+TMP_DIR=$(mktemp -d --tmpdir sof-bin.XXXX)
+RI_INFO="$TMP_DIR/sof_ri_info.py"
+wget -q $SOF_RI_INFO_URL -O $RI_INFO || die "Could not get tool sof_ri_info.py from remote"
+
+# run check on firmware
+# for platform in "${NO_SIGNED_PLATFORMS[@]}"
+# do
+#   [[ "$PUBLIC_SIGNED_SRC_DIR" ]] && check_fw "$platform" "$PUBLIC_SIGNED_SRC_DIR/sof-$platform.ri"
+# done
+
+for platform in "${PUBLIC_SIGNED_PLATFORMS[@]}"
+do
+  [[ "$PUBLIC_SIGNED_SRC_DIR" ]] && check_fw "Community" "$PUBLIC_SIGNED_SRC_DIR/sof-$platform.ri"
+done
+
+for platform in "${INTEL_SIGNED_PLATFORMS[@]}"
+do
+  [[ "$INTEL_SIGNED_SRC_DIR" ]] && check_fw "$platform Intel prod" "$INTEL_SIGNED_SRC_DIR/sof-$platform.ri"
+done
+
+if [[ -n "$ISSUED_PLATFORMS" ]]; then
+  die "Please check: $ISSUED_PLATFORMS"
+  exit 1
+else
+  echo "========================================================================"
+  echo "All FW binary pass check!"
+fi
+[[ "$CHECK_ONLY" ]] && exit 0
+
+# checkout branch
+[[ $(git branch --show-current) == "stable-$RELEASE_VERSION" ]] || git checkout -b "stable-$RELEASE_VERSION"
 
 # create folders
 mkdir -p "$PUBLIC_SIGNED_DIR"
