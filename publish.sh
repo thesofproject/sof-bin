@@ -9,8 +9,8 @@ SOF_RI_INFO_URL="https://raw.githubusercontent.com/thesofproject/sof/master/tool
 
 # Need to check and update the release platforms
 NO_SIGNED_PLATFORMS=(byt cht bdw)
-PUBLIC_SIGNED_PLATFORMS=(apl cnl icl jsl tgl)
-INTEL_SIGNED_PLATFORMS=(apl cnl icl tgl ehl)
+PUBLIC_SIGNED_PLATFORMS=(apl cnl icl jsl tgl tgl-h)
+INTEL_SIGNED_PLATFORMS=(apl cnl icl tgl tgl-h ehl)
 
 ISSUED_PLATFORMS=""
 
@@ -103,7 +103,14 @@ done
 
 for platform in "${INTEL_SIGNED_PLATFORMS[@]}"
 do
-  [[ "$INTEL_SIGNED_SRC_DIR" ]] && check_fw "$platform Intel prod" "$INTEL_SIGNED_SRC_DIR/sof-$platform.ri"
+  case $platform in
+    tgl-h)
+      [[ "$INTEL_SIGNED_SRC_DIR" ]] && check_fw "TGL Intel prod" "$INTEL_SIGNED_SRC_DIR/sof-$platform.ri"
+      ;;
+    *)
+      [[ "$INTEL_SIGNED_SRC_DIR" ]] && check_fw "$platform Intel prod" "$INTEL_SIGNED_SRC_DIR/sof-$platform.ri"
+      ;;
+  esac
 done
 
 if [[ -n "$ISSUED_PLATFORMS" ]]; then
