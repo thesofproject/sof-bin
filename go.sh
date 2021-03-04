@@ -20,6 +20,9 @@ test -n "${SOF_VERSION}" || \
 test -d ${INTEL_PATH}/sof-tplg-${SOF_VERSION} || \
     { echo "Can't find version ${SOF_VERSION} - are you missing leading v?"; exit 2; }
 
+test -d ${ROOT}/${INTEL_PATH}/sof || \
+    mkdir -p ${ROOT}/${INTEL_PATH}/sof
+
 echo "Installing Intel firmware and topology $SOF_VERSION to $INTEL_PATH"
 
 # wipe previous releases
