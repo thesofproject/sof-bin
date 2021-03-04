@@ -123,7 +123,7 @@ fi
 [[ "$CHECK_ONLY" ]] && exit 0
 
 # checkout branch
-[[ $(git branch --show-current) == "stable-$RELEASE_VERSION" ]] || git checkout -b "stable-$RELEASE_VERSION"
+[[ $(git branch --show-current) == "stable-$RELEASE_VERSION" ]] || git checkout -b "stable-$RELEASE_VERSION" || git checkout "stable-$RELEASE_VERSION"
 
 # create folders
 mkdir -p "$PUBLIC_SIGNED_DIR"
@@ -135,25 +135,25 @@ mkdir -p "$TPLG_DIR"
 for platform in "${NO_SIGNED_PLATFORMS[@]}"
 do
   [[ "$PUBLIC_SIGNED_SRC_DIR" ]] && cp "$PUBLIC_SIGNED_SRC_DIR/sof-$platform.ri" "$PUBLIC_SIGNED_SRC_DIR/sof-$platform.ldc" "$BIN_DIR/$SOF_FW_DIR"
+  rename -v -f "s/\.ri$/-""$RELEASE_VERSION"".ri/" "$BIN_DIR/$SOF_FW_DIR/sof-$platform.ri"
+  rename -v -f "s/\.ldc$/-""$RELEASE_VERSION"".ldc/" "$BIN_DIR/$SOF_FW_DIR/sof-$platform.ldc"
 done
 
 for platform in "${PUBLIC_SIGNED_PLATFORMS[@]}"
 do
   [[ "$PUBLIC_SIGNED_SRC_DIR" ]] && cp "$PUBLIC_SIGNED_SRC_DIR/sof-$platform.ldc" "$BIN_DIR/$SOF_FW_DIR"
   [[ "$PUBLIC_SIGNED_SRC_DIR" ]] && cp "$PUBLIC_SIGNED_SRC_DIR/sof-$platform.ri" "$BIN_DIR/$PUBLIC_SIGNED_DIR"
+  rename -v -f "s/\.ri$/-""$RELEASE_VERSION"".ri/" "$BIN_DIR/$PUBLIC_SIGNED_DIR/sof-$platform.ri"
+  rename -v -f "s/\.ldc$/-""$RELEASE_VERSION"".ldc/" "$BIN_DIR/$SOF_FW_DIR/sof-$platform.ldc"
 done
 
 for platform in "${INTEL_SIGNED_PLATFORMS[@]}"
 do
   [[ "$INTEL_SIGNED_SRC_DIR" ]] && cp "$INTEL_SIGNED_SRC_DIR/sof-$platform.ldc" "$BIN_DIR/$SOF_FW_DIR"
   [[ "$INTEL_SIGNED_SRC_DIR" ]] && cp "$INTEL_SIGNED_SRC_DIR/sof-$platform.ri" "$BIN_DIR/$INTEL_SIGNED_DIR"
+  rename -v -f "s/\.ri$/-""$RELEASE_VERSION"".ri/" "$BIN_DIR/$INTEL_SIGNED_DIR/sof-$platform.ri"
+  rename -v -f "s/\.ldc$/-""$RELEASE_VERSION"".ldc/" "$BIN_DIR/$SOF_FW_DIR/sof-$platform.ldc"
 done
-
-# rename the ri and ldc files
-rename -v "s/\.ri$/-""$RELEASE_VERSION"".ri/" "$BIN_DIR/$SOF_FW_DIR/"*.ri
-rename -v "s/\.ldc$/-""$RELEASE_VERSION"".ldc/" "$BIN_DIR/$SOF_FW_DIR/"*.ldc
-rename -v "s/\.ri$/-""$RELEASE_VERSION"".ri/" "$BIN_DIR/$PUBLIC_SIGNED_DIR/"*.ri
-rename -v "s/\.ri$/-""$RELEASE_VERSION"".ri/" "$BIN_DIR/$INTEL_SIGNED_DIR/"*.ri
 
 # publish tools and tplg
 [[ "$TPLG_SRC_DIR" ]] && cp "$TPLG_SRC_DIR"/*.tplg "$BIN_DIR/$TPLG_DIR"
@@ -163,7 +163,8 @@ rename -v "s/\.ri$/-""$RELEASE_VERSION"".ri/" "$BIN_DIR/$INTEL_SIGNED_DIR/"*.ri
 chmod 644 "$BIN_DIR/$SOF_FW_DIR/"*.ri "$BIN_DIR/$SOF_FW_DIR/"*.ldc "$BIN_DIR/$PUBLIC_SIGNED_DIR/"*.ri "$BIN_DIR/$INTEL_SIGNED_DIR/"*.ri "$BIN_DIR/$TPLG_DIR"/*.tplg
 chmod 755 "$BIN_DIR/$TOOLS_DIR"/sof-*
 
+cd $BIN_DIR
 # create check sum files
-sha256sum "$BIN_DIR/$SOF_FW_DIR/"sof-* "$BIN_DIR/$SOF_FW_DIR/"*/*.ri "$BIN_DIR/$TPLG_DIR"/*.tplg "$BIN_DIR/$TOOLS_DIR"/sof-* > checksum.sha256
-sha1sum "$BIN_DIR/$SOF_FW_DIR/"sof-* "$BIN_DIR/$SOF_FW_DIR/"*/*.ri "$BIN_DIR/$TPLG_DIR"/*.tplg "$BIN_DIR/$TOOLS_DIR"/sof-* > checksum.sha1
-md5sum "$BIN_DIR/$SOF_FW_DIR/"sof-* "$BIN_DIR/$SOF_FW_DIR/"*/*.ri "$BIN_DIR/$TPLG_DIR"/*.tplg "$BIN_DIR/$TOOLS_DIR"/sof-* > checksum.md5
+sha256sum "$SOF_FW_DIR/"sof-* "$SOF_FW_DIR/"*/*.ri "$TPLG_DIR"/*.tplg "$TOOLS_DIR"/sof-* > checksum.sha256
+sha1sum "$SOF_FW_DIR/"sof-* "$SOF_FW_DIR/"*/*.ri "$TPLG_DIR"/*.tplg "$TOOLS_DIR"/sof-* > checksum.sha1
+md5sum "$SOF_FW_DIR/"sof-* "$SOF_FW_DIR/"*/*.ri "$TPLG_DIR"/*.tplg "$TOOLS_DIR"/sof-* > checksum.md5
