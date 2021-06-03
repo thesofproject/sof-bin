@@ -4,7 +4,7 @@ the go.sh script is not used anymore. Instead:
 ```
 sudo mv /lib/firmware/intel/sof* some_backup_location/
 sudo mv /usr/local/bin/sof-*     some_backup_location/ # optional
-sudo install.sh v1.7
+sudo install.sh v1.7.x/v1.7
 ```
 
 The go.sh script still applies to older releases.
@@ -13,6 +13,7 @@ You don't have to use install.sh, you can use any recursive copy of
 your preference. This is all what install.sh does:
 
 ```
+cd v1.7.x
 rsync -a sof*v1.7   /lib/firmware/intel/
 ln -s sof-v1.7      /lib/firmware/intel/sof
 ln -s sof-tplg-v1.7 /lib/firmware/intel/sof-tplg
