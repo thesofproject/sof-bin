@@ -19,7 +19,8 @@ main()
 {
     test "$#" -eq 1 || usage
 
-    local ver="$1"
+    local path; path=$(dirname "$1")
+    local ver; ver=$(basename "$1")
 
     # Do this first so we can fail immediately and not leave a
     # half-install behind
@@ -32,8 +33,8 @@ main()
     done
 
     # Trailing slash in srcdir/ ~= srcdir/*
-    rsync -a sof*"$ver" "${FW_DEST}"/
-    rsync -a tools-"$ver"/ "${TOOLS_DEST}"/
+    rsync -a "${path}"/sof*"$ver" "${FW_DEST}"/
+    rsync -a "${path}"/tools-"$ver"/ "${TOOLS_DEST}"/
 }
 
 die()
