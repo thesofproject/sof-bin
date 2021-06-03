@@ -10,7 +10,7 @@ usage()
 {
     cat <<EOF
 Usage:
-        sudo $0 v1.7
+        sudo $0 v1.7.x/v1.7
 EOF
     exit 1
 }
