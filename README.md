@@ -4,7 +4,7 @@ the go.sh script is not used anymore. Instead:
 ```
 sudo mv /lib/firmware/intel/sof* some_backup_location/
 sudo mv /usr/local/bin/sof-*     some_backup_location/ # optional
-sudo install.sh v1.N.x/v1.N-rcM
+sudo ./install.sh v1.N.x/v1.N-rcM
 ```
 
 The go.sh script still applies to older releases.
