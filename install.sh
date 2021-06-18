@@ -26,7 +26,7 @@ main()
     # half-install behind
     set -x
     for sdir in sof sof-tplg; do
-        ln -s "$sdir-$ver" "${FW_DEST}/$sdir" || {
+        ln -sT "$sdir-$ver" "${FW_DEST}/$sdir" || {
             set +x
             die '%s already installed? (Re)move it first.\n' "${FW_DEST}/$sdir"
         }
