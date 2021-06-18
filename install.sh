@@ -9,8 +9,8 @@ set -e
 usage()
 {
     cat <<EOF
-Usage:
-        sudo $0 v1.7.x/v1.7
+Usage example:
+        sudo $0 [v1.8.x/]v1.8
 EOF
     exit 1
 }
