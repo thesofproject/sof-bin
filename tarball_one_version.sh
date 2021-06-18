@@ -31,6 +31,11 @@ main()
         die "%s already exists\n" "$archive_name"
     fi
 
+    if find "${gittop}" -xtype l | grep -q . ; then
+        find "${gittop}" -xtype l -exec file {} \;
+	die "Found some broken symbolic links\n"
+    fi
+
     set -x
     # Start with a clean git archive
     git archive -o _.tar --prefix="$archive_name"/ HEAD
