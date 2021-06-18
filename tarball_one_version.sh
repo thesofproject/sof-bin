@@ -38,7 +38,7 @@ main()
 
     # Save the selected version
     rm -rf _selected_version;   mkdir _selected_version
-    mv "$archive_name"/"$path"/*"$ver"*  _selected_version/
+    mv "$archive_name"/"$path"/*"$ver"  _selected_version/
 
     # Delete all other versions
     rm -r "${archive_name:?}"/v[0-9].*
