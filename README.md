@@ -7,7 +7,8 @@ sudo mv /usr/local/bin/sof-*     some_backup_location/ # optional
 sudo ./install.sh v1.N.x/v1.N-rcM
 ```
 
-The go.sh script still applies to older releases.
+The go.sh and install.sh for pre-v1.7 releases have been deleted,
+you can find them in the history.
 
 You don't have to use install.sh, you can use any recursive copy of
 your preference. This is all what install.sh does, example with v1.7.x/v1.7:
@@ -28,5 +29,7 @@ rsync -a sof-tplg-v1.7/  /lib/firmware/intel/sof-tplg/
 rsync tools-v1.7/        /usr/local/bin/
 ```
 
-Remember that for rsync (and some versions of `cp`), a trailing slash in
-srcdir/ is roughly equivalent to srcdir/* + srcdir/.??*
+Remember that for `rsync` (and some versions of `cp`), a trailing slash
+in `srcdir/` is roughly equivalent to `srcdir/*` + `srcdir/.??*`  This
+is how a recursive `rsync` is always idempotent while a recursive `cp`
+is typically not.
