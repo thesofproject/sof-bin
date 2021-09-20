@@ -43,11 +43,12 @@ main()
     # Delete all other versions
     rm -r "${archive_name:?}"/v[0-9].*
 
-    # Exclude the copy of ourselves (we need git) and the obsolete
-    # scripts
+    # Exclude the copy of ourselves (we depend on git) any obsolete
+    # scripts or other irrelevant stuff
     ( cd "${archive_name:?}"
       rm "$(basename "$0")"
-      rm README-before-1.7.md go.sh publish.sh
+      rm -f README-before-1.7.md go.sh publish.sh
+      rm -f HOWTO-new-release.md
     )
 
     # Restore the selected version
