@@ -31,11 +31,6 @@ main()
         die "%s already exists\n" "$archive_name"
     fi
 
-    if find "${gittop}" -xtype l | grep -q . ; then
-        find "${gittop}" -xtype l -exec file {} \;
-	die "Found some broken symbolic links\n"
-    fi
-
     set -x
     # Start with a clean git archive
     git archive -o _.tar --prefix="$archive_name"/ HEAD
@@ -55,9 +50,17 @@ main()
       rm README-before-1.7.md go.sh publish.sh
     )
 
-    # Restore the selected version and create tarball
+    # Restore the selected version
     mv _selected_version/* "$archive_name"/
     rmdir _selected_version
+
+    ( set +x
+      if find "${archive_name}"/ -xtype l | grep -q . ; then
+          find "${archive_name}"/ -xtype l -exec file {} \;
+          die "Found some broken symbolic links\n"
+      fi
+    )
+
     tar cfz "$archive_name".tar.gz "$archive_name"/
     rm -r "${archive_name:?}"/
 }
