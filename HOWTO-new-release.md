@@ -1,10 +1,20 @@
 How to make a new release
 -------------------------
 
+Proceed very slowly and triple-check everything because everything is
+immutable: never overwrite or rename any version of anything already
+published: tags, firmware images, directories, tarballs,... Having
+actually different versions labelled the exact same is an extremely
+confusing, time-consuming and frustrating user experience; it's the very
+problem versioning is meant to solve. If a mistake was made and
+published, simply create a new release. If the only delta between -rc5
+and -rc6 is a fixed typo then you obviously don't need to test -rc6
+again.
+
 Build the /lib/firmware/intel/sof/ tree
 ---------------------------------------
 
-- After validation, create the new git tag.
+- After validation, create the new git tag in sof.git
 
 - Point the SOF installer to your local sof-bin clone by creating an
   `sof/installer/config.mk` config file like this:
@@ -37,12 +47,13 @@ Release
   the previous patterns (otherwise some scripts won't work), then git
   commit the `/lib/firmware/intel/sof/` community tree that the
   installer just built and "installed" in your sof-bin clone. See git
-  log for past examples. Note: you don't have to build the
+  log for past examples. Alternative: you don't have to build the
   `/lib/firmware/intel/sof/` community tree yourself, you can also get
   it as a tarball from someone else or from some automated build system
-  that you trust.
+  that you trust. The installer above has a `make tarball` target for
+  community-signed firmware and user space tools.
 
-- Add the Intel signed `*.ri` binaries in the `intel-signed/`
+- Add the Intel signed `*.ri` binaries to the empty `intel-signed/`
   subdirectory. Use the `tree` command to make sure all symbolic links
   are resolved and no `*.ri` firmware file is missing. Git commit the
   Intel signed binaries.
@@ -56,22 +67,21 @@ Release
 
       ./tarball_one_version.sh v1.9.x/v1.9-rc1
 
-  Do not share this test tarball before the final sof-bin pull request
-  has been merged, see below why. Extract this test tarball you just
-  generated and have a look at its content.
+  Do not publish this test tarball before your final sof-bin pull
+  request has been merged. Extract this test tarball you just generated
+  and have a look at its content.
 
 - Submit the sof-bin pull request(s). A single pull request is normally
-  enough; sometimes you may want to quickly share the community files
-  while waiting for the intel-signed ones or share some platforms before
-  others.
+  enough but sometimes you may want to quickly share the community files
+  while still waiting for the intel-signed ones. Or pre-release some
+  platforms before others.
 
 - Only after the final sof-bin pull request has been merged, generate
-  and upload the tarball to
+  and upload the official release tarball to
   https://github.com/thesofproject/sof-bin/releases
+  This page lets you create a new tag.
 
-Everything is immutable: never overwrite or rename any version of
-anything (tags, firmware images, directories, tarballs,...) unless you
-want all users to deeply hate you for not knowing which duplicate
-version they have. If you screwed up, simply create a new release
-candidate. If the only delta between -rc5 and -rc6 is a README file then
-you obviously don't need to run tests on -rc6 again.
+If you realize you made a mistake in something already merged or
+released, always increase the version number and start rebuilding
+everything from scratch. Never delete or overwrite anything already
+released https://git-scm.com/docs/git-tag#_on_re_tagging
