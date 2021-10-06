@@ -78,8 +78,12 @@ Release
 
 - Only after the final sof-bin pull request has been merged, generate
   and upload the official release tarball to
-  https://github.com/thesofproject/sof-bin/releases
-  This page lets you create a new tag.
+  https://github.com/thesofproject/sof-bin/releases This page lets you
+  create a new tag. In text box for the release notes, add a link to
+  the release notes for the same tag in the other, _sof_ source repo.
+  Example:
+
+      See release notes at https://github.com/thesofproject/sof/releases/tag/v1.9
 
 If you realize you made a mistake in something already merged or
 released, always increase the version number and start rebuilding
