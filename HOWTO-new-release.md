@@ -69,7 +69,9 @@ Release
 
   Do not publish this test tarball before your final sof-bin pull
   request has been merged. Extract this test tarball you just generated
-  and have a look at its content.
+  and test its short `./install.sh` script. Move your older firmware
+  directories first or override the install destination, see how at the
+  top of the script.
 
 - Submit the sof-bin pull request(s). A single pull request is normally
   enough but sometimes you may want to quickly share the community files

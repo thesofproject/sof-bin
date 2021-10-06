@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# Keep this script as short as possible _and_ optional - some
+# distributions don't use it at all.
+#
+# The entire installation process belongs to sof/installer/ in the
+# main repo where any developer can use it and fix it.
+
 set -e
 
 # Default values, override on the command line
