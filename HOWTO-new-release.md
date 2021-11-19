@@ -58,6 +58,15 @@ Release
   are resolved and no `*.ri` firmware file is missing. Git commit the
   Intel signed binaries.
 
+- If the `intel-signed/*.ri` files came with some corresponding `*.ldc`
+  dictionary files, do not add the corresponding `*.ldc` files to the
+  release because they should be exact duplicates of the community
+  `*.ldc` files. Instead, make sure they are actually the same; it's a
+  useful check. You can use something like this (or any preferred
+  comparison tool)
+
+      for i in *.ldc; do diff -s $i intel-signed-release/$i; done
+
 - For pure shell completion convenience, add and commit an empty file,
   for example:
 
