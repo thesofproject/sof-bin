@@ -8,7 +8,9 @@ sudo ./install.sh v1.N.x/v1.N-rcM
 ```
 
 The go.sh and install.sh for pre-v1.7 releases have been deleted,
-you can find them in the history.
+you can find them in the git history.
+
+There is a single git branch now, everything is in the default branch.
 
 You don't have to use install.sh, you can use any recursive copy of
 your preference. This is all what install.sh does, example with v1.7.x/v1.7:
