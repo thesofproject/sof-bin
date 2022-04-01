@@ -46,7 +46,7 @@ main()
     # Exclude the copy of ourselves (we depend on git) any obsolete
     # scripts or other irrelevant stuff
     ( cd "${archive_name:?}"
-      rm "$(basename "$0")"
+      rm tarball*.sh
       rm -f README-before-1.7.md go.sh publish.sh
       rm -f HOWTO-new-release.md
     )
