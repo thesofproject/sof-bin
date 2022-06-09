@@ -28,6 +28,7 @@ main()
     local path; path=$(dirname "$1")
     local ver; ver=$(basename "$1")
     local vpath; vpath="$(ls -d "${path}/${ver}"*)"
+    local tpath; tpath="$(ls -d "${vpath}/tools-"* | sort -V -r | head -1)"
     # Do this first so we can fail immediately and not leave a
     # half-install behind
     set -x
@@ -39,7 +40,7 @@ main()
     done
     # Trailing slash in srcdir/ ~= srcdir/*
     rsync -a "${vpath}/sof" "${FW_DEST}"/
-    rsync -a "${vpath}/tools-"*/ "${TOOLS_DEST}"/
+    rsync -a "${tpath}/" "${TOOLS_DEST}"/
 }
 
 die()
