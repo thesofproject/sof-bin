@@ -27,7 +27,7 @@ main()
 
     local path; path=$(dirname "$1")
     local ver; ver=$(basename "$1")
-
+    local vpath; vpath="$(ls -d "${path}/${ver}"*)"
     # Do this first so we can fail immediately and not leave a
     # half-install behind
     set -x
@@ -37,10 +37,9 @@ main()
             die '%s already installed? (Re)move it first.\n' "${FW_DEST}/$sdir"
         }
     done
-
     # Trailing slash in srcdir/ ~= srcdir/*
-    rsync -a "${path}"/sof*"$ver" "${FW_DEST}"/
-    rsync -a "${path}"/tools-"$ver"/ "${TOOLS_DEST}"/
+    rsync -a "${vpath}/sof" "${FW_DEST}"/
+    rsync -a "${vpath}/tools-"*/ "${TOOLS_DEST}"/
 }
 
 die()
