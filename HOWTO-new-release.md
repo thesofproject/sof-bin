@@ -82,6 +82,20 @@ Release
   directories first or override the install destination, see how at the
   top of the script.
 
+- Create or update the `sof` and `sof-tplg` symbolic links so they point
+  at the latest version as some distribution(s) rely on these links (see
+  issue #87). Examples:
+
+      ls -ld v*/sof v*/sof-tplg
+
+      v2.0.x/sof -> sof-v2.0
+      v2.1.x/sof -> sof-v2.1.1
+      v2.2.x/sof -> sof-v2.2
+
+      v2.0.x/sof-tplg -> sof-tplg-v2.0
+      v2.1.x/sof-tplg -> sof-tplg-v2.1.1
+      v2.2.x/sof-tplg -> sof-tplg-v2.2.1
+
 - Submit the sof-bin pull request(s). A single pull request is normally
   enough but sometimes you may want to quickly share the community files
   while still waiting for the intel-signed ones. Or pre-release some
