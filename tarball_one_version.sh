@@ -2,6 +2,12 @@
 
 set -e
 
+if [ "$(uname)" = 'Darwin' ]; then
+    find() { # for -xtype
+        gfind "$@"  # brew install findutils
+    }
+fi
+
 usage()
 {
     cat <<EOF
