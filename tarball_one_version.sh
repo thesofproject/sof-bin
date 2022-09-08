@@ -25,7 +25,6 @@ main()
     local archive_name=sof-bin-"$ver"
 
     local gittop; gittop="$(git rev-parse --show-toplevel)"
-    cd "${gittop}"
 
     if test -e "$archive_name"; then
         die "%s already exists\n" "$archive_name"
@@ -33,7 +32,11 @@ main()
 
     set -x
     # Start with a clean git archive
-    git archive -o _.tar --prefix="$archive_name"/ HEAD
+    #
+    ( set -e; local _pwd; _pwd=$(pwd)
+        cd "${gittop}" # git archive is painful like this
+        git archive -o "$_pwd"/_.tar --prefix="$archive_name"/ HEAD "${gittop}"
+    )
     tar xf _.tar; rm _.tar
 
     # Save the selected version
