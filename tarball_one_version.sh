@@ -43,16 +43,17 @@ main()
     rm -rf _selected_version;   mkdir _selected_version
     mv "$archive_name"/"$path"/*"$ver"  _selected_version/
 
-    # Delete all other versions
-    rm -r "${archive_name:?}"/v[0-9].*
+    # Select ancillary files
+    ( set -e
+      local _pwd; _pwd=$(pwd)
+      cd "${archive_name:?}"
 
-    # Exclude the copy of ourselves (we depend on git) any obsolete
-    # scripts or other irrelevant stuff
-    ( cd "${archive_name:?}"
-      rm tarball*.sh
-      rm -f README-before-1.7.md go.sh publish.sh
-      rm -f HOWTO-new-release.md
+      rm -f README-before-1.7.md
+      mv install.sh README* LICENCE* Notice* "${_pwd}"/_selected_version/
     )
+
+    # Delete everything else
+    rm -r "${archive_name:?}"/*
 
     # Restore the selected version
     mv _selected_version/* "$archive_name"/
