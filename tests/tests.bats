@@ -1,7 +1,8 @@
 
 # https://bats-core.readthedocs.io/en/stable/tutorial.html
 
-
+# Warning: BATS seems able to neither trace nor show errors in setup*()
+# functions. Try --no-tempdir-cleanup and inspect logs there.
 setup_file()
 {
     load 'common_helpers.bash'; set_constants
@@ -11,7 +12,7 @@ setup_file()
 setup()
 {
     mkdir -p testruns/
-    RUN_DIR=$(mktemp --directory testruns/run-XXXXXX)
+    RUN_DIR=$(mktemp -d testruns/run-XXXXXX)
 }
 
 teardown()
