@@ -27,14 +27,17 @@ main()
     local sof_tplg_ver=sof-tplg-"$ver"
 
     local gittop; gittop="$(git rev-parse --show-toplevel)"
-    cd "${gittop}"/"$path"
 
-    test -d "$sof_tplg_ver" ||
+    ( set -e; local _pwd; _pwd=$(pwd)
+      cd "${gittop}"/"$path"
+
+      test -d "$sof_tplg_ver" ||
         die "No %s/%s directory\n" "$(pwd)" "$sof_tplg_ver"
 
-    tarfile="$gittop"/"$sof_tplg_ver".tar.gz
-    set -x
-    git archive -9 -o "$tarfile" HEAD -- "$sof_tplg_ver"
+      tarfile="${_pwd}"/"$sof_tplg_ver".tar.gz
+      set -x
+      git archive -9 -o "$tarfile" HEAD -- "$sof_tplg_ver"
+    )
 }
 
 die()
