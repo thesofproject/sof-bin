@@ -21,27 +21,39 @@ teardown()
 }
 
 @test "tarball_one_version 2.1.1" {
-
-    pushd "$RUN_DIR"/
-    load 'common_helpers.bash';  set_constants
-
-    get_release v2.1.1/sof-bin-v2.1.1.tar.gz
-
-    "$TOP_DIR"/tarball_one_version.sh v2.1.x/v2.1.1
-    tar xf sof-bin-v2.1.1.tar.gz
-    diff -qr "$EXTR_REFS"/sof-bin-v2.1.1 sof-bin-v2.1.1/
-    popd
+    test_tarball_one_version v2.1.x v2.1.1
 }
 
 @test "tarball_topologies_only 2.2.1" {
+    test_tarball_topologies_only v2.2.x v2.2.1
+}
 
-    pushd "$RUN_DIR"/
+test_tarball_one_version()
+{
+    local dir="$1" ver="$2"
+
+    pushd "$RUN_DIR"/ || exit 1
     load 'common_helpers.bash';  set_constants
 
-    get_release v2.2.1/sof-tplg-v2.2.1.tar.gz
+    get_release "$ver"/sof-bin-"$ver".tar.gz
 
-    "$TOP_DIR"/tarball_topologies_only.sh v2.2.x/v2.2.1
-    tar xf sof-tplg-v2.2.1.tar.gz
-    diff -qr "$EXTR_REFS"/sof-tplg-v2.2.1 sof-tplg-v2.2.1/
-    popd
+    "$TOP_DIR"/tarball_one_version.sh "$dir"/"$ver"
+    tar xf sof-bin-"$ver".tar.gz
+    diff -qr "$EXTR_REFS"/sof-bin-"$ver"  sof-bin-"$ver"/
+    popd || exit 1
+}
+
+test_tarball_topologies_only()
+{
+    local dir="$1" ver="$2"
+
+    pushd "$RUN_DIR"/ || exit 1
+    load 'common_helpers.bash';  set_constants
+
+    get_release "$ver"/sof-tplg-"$ver".tar.gz
+
+    "$TOP_DIR"/tarball_topologies_only.sh "$dir"/"$ver"
+    tar xf sof-tplg-"$ver".tar.gz
+    diff -qr "$EXTR_REFS"/sof-tplg-"$ver" sof-tplg-"$ver"/
+    popd || exit 1
 }
