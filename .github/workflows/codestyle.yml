@@ -1,0 +1,19 @@
+---
+
+name: codestyle
+
+# yamllint disable-line rule:truthy
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  shellcheck:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: run tests
+        # Ignore SC3043 because every decent shell has 'local'. Let's not
+        # force every script to require bash when not required.
+        # (on Debian/Ubuntu bash is not the default)
+        run: shellcheck -e SC3043 *sh */*sh tests/*.bats
