@@ -1,0 +1,22 @@
+---
+
+name: BATS
+
+# yamllint disable-line rule:truthy
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  testjob:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: apt-get update
+        run: sudo apt-get update
+
+      - name: apt-get install
+        run: sudo apt-get -y install bats
+
+      - uses: actions/checkout@v2
+
+      - name: run tests
+        run: bats -j3 tests/tests.bats
