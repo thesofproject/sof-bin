@@ -53,7 +53,7 @@ main()
     )
 
     # Delete everything else
-    rm -r "${archive_name:?}"/*
+    rm -r "${archive_name:?}"/* "${archive_name:?}"/.github/
 
     # Restore the selected version
     mv _selected_version/* "$archive_name"/
