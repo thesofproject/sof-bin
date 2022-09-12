@@ -41,6 +41,14 @@ teardown()
     test_tarball_topologies_only v2.2.x v2.2.1
 }
 
+@test "tarball_topologies_only 2.1.1a" {
+    test_tarball_topologies_only v2.1.x v2.1.1a
+}
+
+@test "tarball_topologies_only 1.9.3-tplg2" {
+    test_tarball_topologies_only v1.9.x v1.9.3-tplg2
+}
+
 test_tarball_one_version()
 {
     local dir="$1" ver="$2"
