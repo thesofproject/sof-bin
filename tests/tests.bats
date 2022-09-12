@@ -21,8 +21,20 @@ teardown()
     rm -rf "${RUN_DIR:?}"/
 }
 
+# Up to now it's been possible to maintain script compatibility with most
+# old releases. When that becomes really too hard then just stop testing
+# the oldest versions.
 @test "tarball_one_version 2.1.1" {
-    test_tarball_one_version v2.1.x v2.1.1
+    test_tarball_one_version v2.1.x v2.1.1	v2.1.1
+}
+@test "tarball_one_version 2.0" {
+    test_tarball_one_version v2.0.x v2.0	v2.0
+}
+@test "tarball_one_version 1.9.3" {
+    test_tarball_one_version v1.9.x v1.9.3	v1.9.3
+}
+@test "tarball_one_version 1.8" {
+    test_tarball_one_version v1.8.x v1.8	v1.8
 }
 
 @test "tarball_topologies_only 2.2.1" {
