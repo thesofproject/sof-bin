@@ -16,19 +16,27 @@ usage()
 3. Moves that selected version one level up, to the top-level in the archive
 
 Sample usage:
-        $0 v1.7.x/v1.7
+        $0 v1.7.x/v1.7  [ v1.7 ]
+
+Synopsis:
+        $0 directory/version_number  optional_git_tag
+
+The git tag is optional because most files are immutable. It's used by
+some tests/.
 EOF
+
     exit 1
 }
 
 main()
 {
-    [ "$#" -eq 1 ] || usage
-
+    { [ "$#" -ge 1 ] && [ "$#" -le 2 ]; } || usage
 
     local path; path=$(dirname "$1")
     local ver; ver=$(basename "$1")
     local archive_name=sof-bin-"$ver"
+
+    local git_tag="${2:-HEAD}"
 
     local gittop; gittop="$(git rev-parse --show-toplevel)"
 
@@ -41,7 +49,7 @@ main()
     #
     ( set -e; local _pwd; _pwd=$(pwd)
         cd "${gittop}" # git archive is painful like this
-        git archive -o "$_pwd"/_.tar --prefix="$archive_name"/ HEAD "${gittop}"
+        git archive -o "$_pwd"/_.tar --prefix="$archive_name"/ "$git_tag" "${gittop}"
     )
     tar xf _.tar; rm _.tar
 
@@ -59,7 +67,7 @@ main()
     )
 
     # Delete everything else
-    rm -r "${archive_name:?}"/* "${archive_name:?}"/.github/
+    rm -rf "${archive_name:?}"/* "${archive_name:?}"/.github/
 
     # Restore the selected version
     mv _selected_version/* "$archive_name"/
