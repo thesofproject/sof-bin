@@ -17,6 +17,7 @@ jobs:
         run: sudo apt-get -y install bats
 
       - uses: actions/checkout@v2
+        with: {fetch-depth: 0}
 
       - name: run tests
         run: bats tests/tests.bats
