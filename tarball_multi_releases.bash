@@ -93,7 +93,7 @@ main()
     rmdir _selected_versions
 
     check_symlinks "$archive_name" ||
-        die "Found some broken symbolic links before combining\n"
+        >&2 printf "WARNING: Found some broken symbolic links before combining\n"
 
     # Now "install" versions in the given order and on top of each
     # other: last one wins. Record the version of each file for the
