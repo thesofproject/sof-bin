@@ -63,13 +63,18 @@ teardown()
     popd || exit 1
 }
 
-test_tarball_one_version()
+test_init()
 {
-    local dir="$1" ver="$2"
-    local optional_git_tag="$3"
-
     pushd "$RUN_DIR"/ || exit 1
     load 'common_helpers.bash';  set_constants
+}
+
+test_tarball_one_version()
+{
+    test_init
+
+    local dir="$1" ver="$2"
+    local optional_git_tag="$3"
 
     get_release "$ver"/sof-bin-"$ver".tar.gz
 
@@ -81,10 +86,9 @@ test_tarball_one_version()
 
 test_tarball_topologies_only()
 {
-    local dir="$1" ver="$2"
+    test_init
 
-    pushd "$RUN_DIR"/ || exit 1
-    load 'common_helpers.bash';  set_constants
+    local dir="$1" ver="$2"
 
     get_release "$ver"/sof-tplg-"$ver".tar.gz
 
