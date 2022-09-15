@@ -61,7 +61,7 @@ test_tarball_one_version()
 
     "$TOP_DIR"/tarball_one_version.sh "$dir"/"$ver" "$optional_git_tag"
     tar xf sof-bin-"$ver".tar.gz
-    diff -qr "$EXTR_REFS"/sof-bin-"$ver"  sof-bin-"$ver"/
+    diff -qr "$EXTR_REFS"/sof-bin-"$ver"  "$(pwd)/sof-bin-$ver"/
     popd || exit 1
 }
 
@@ -76,6 +76,6 @@ test_tarball_topologies_only()
 
     "$TOP_DIR"/tarball_topologies_only.sh "$dir"/"$ver"
     tar xf sof-tplg-"$ver".tar.gz
-    diff -qr "$EXTR_REFS"/sof-tplg-"$ver" sof-tplg-"$ver"/
+    diff -qr "$EXTR_REFS"/sof-tplg-"$ver" "$(pwd)"/sof-tplg-"$ver"/
     popd || exit 1
 }
