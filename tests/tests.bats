@@ -49,6 +49,20 @@ teardown()
     test_tarball_topologies_only v1.9.x v1.9.3-tplg2
 }
 
+@test "tarball_multi_2_1_1a" {
+    pushd "$RUN_DIR"/ || exit 1
+    load 'common_helpers.bash';  set_constants
+
+    "$TOP_DIR"/tarball_multi_releases.bash \
+      v2.2.x/sof-v2.2  v1.8.x/sof-v1.8-rc2  v1.9.x/tools-v1.9-rc1/ \
+      v2.1.x/sof-tplg-v2.1.1a
+    tar xf sof-bin-v2.1.1a.tar.gz
+    for i in manifest.txt sha256sum.txt; do
+        diff -u "$STATIC_REFS"/multi-v2.1.1a/"$i" "$(pwd)/sof-bin-v2.1.1a/$i"
+    done
+    popd || exit 1
+}
+
 test_tarball_one_version()
 {
     local dir="$1" ver="$2"
