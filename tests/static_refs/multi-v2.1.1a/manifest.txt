@@ -1,0 +1,74 @@
+sof-tplg-v2.1.1a	./sof-adl-rt711-l0-rt1308-l12-rt715-l3.tplg
+sof-tplg-v2.1.1a	./sof-adl-rt711-l0-rt1316-l12-rt714-l3.tplg
+sof-tplg-v2.1.1a	./sof-adl-rt711-l0-rt1316-l13-rt714-l2.tplg
+sof-tplg-v2.1.1a	./sof-adl-rt711-l2-rt1316-l01.tplg
+sof-tplg-v2.1.1a	./sof-adl-rt711-l2-rt1316-l01-rt714-l3.tplg
+sof-tplg-v2.1.1a	./sof-adl-rt1316-l2-mono-rt714-l0.tplg
+sof-tplg-v2.1.1a	./sof-adl-rt1316-l2-mono-rt714-l3.tplg
+sof-tplg-v2.1.1a	./sof-adl-rt1316-l12-rt714-l0.tplg
+sof-tplg-v2.1.1a	./sof-cml-rt711-rt1308-mono-rt715.tplg
+sof-tplg-v2.1.1a	./sof-cml-rt711-rt1308-rt715.tplg
+sof-tplg-v2.1.1a	./sof-icl-rt711-rt1308-rt715.tplg
+sof-tplg-v2.1.1a	./sof-tgl-rt711-l0-rt1316-l1-mono-rt714-l3.tplg
+sof-tplg-v2.1.1a	./sof-tgl-rt711-rt1308-mono-rt715.tplg
+sof-tplg-v2.1.1a	./sof-tgl-rt711-rt1308-rt715.tplg
+sof-tplg-v2.1.1a	./sof-tgl-rt711-rt1316-rt714.tplg
+sof-tplg-v2.1.1a	./sof-tgl-rt715-rt711-rt1308-mono.tplg
+sof-v1.8-rc2	./community/sof-apl.ri
+sof-v1.8-rc2	./community/sof-cnl.ri
+sof-v1.8-rc2	./community/sof-icl.ri
+sof-v1.8-rc2	./community/sof-jsl.ri
+sof-v1.8-rc2	./community/sof-tgl.ri
+sof-v1.8-rc2	./community/sof-tgl-h.ri
+sof-v1.8-rc2	./intel-signed/sof-apl.ri
+sof-v1.8-rc2	./intel-signed/sof-cnl.ri
+sof-v1.8-rc2	./intel-signed/sof-ehl.ri
+sof-v1.8-rc2	./intel-signed/sof-icl.ri
+sof-v1.8-rc2	./intel-signed/sof-jsl.ri
+sof-v1.8-rc2	./intel-signed/sof-tgl.ri
+sof-v1.8-rc2	./intel-signed/sof-tgl-h.ri
+sof-v1.8-rc2	./sof-apl.ldc
+sof-v1.8-rc2	./sof-bdw.ldc
+sof-v1.8-rc2	./sof-bdw.ri
+sof-v1.8-rc2	./sof-byt.ldc
+sof-v1.8-rc2	./sof-byt.ri
+sof-v1.8-rc2	./sof-cht.ldc
+sof-v1.8-rc2	./sof-cht.ri
+sof-v1.8-rc2	./sof-cnl.ldc
+sof-v1.8-rc2	./sof-icl.ldc
+sof-v1.8-rc2	./sof-jsl.ldc
+sof-v1.8-rc2	./sof-tgl.ldc
+sof-v1.8-rc2	./sof-tgl-h.ldc
+sof-v2.2	./intel-signed/sof-adl.ri
+sof-v2.2	./intel-signed/sof-adl-s.ri
+tools-v1.9-rc1	./sof-logger
+
+#   --- symbolic links ---
+
+sof-v1.8-rc2	./community/sof-cfl.ri -> sof-cnl.ri
+sof-v1.8-rc2	./community/sof-cml.ri -> sof-cnl.ri
+sof-v1.8-rc2	./community/sof-ehl.ri -> sof-tgl.ri
+sof-v1.8-rc2	./community/sof-glk.ri -> sof-apl.ri
+sof-v1.8-rc2	./intel-signed/sof-cfl.ri -> sof-cnl.ri
+sof-v1.8-rc2	./intel-signed/sof-cml.ri -> sof-cnl.ri
+sof-v1.8-rc2	./intel-signed/sof-glk.ri -> sof-apl.ri
+sof-v1.8-rc2	./sof-apl.ri -> intel-signed/sof-apl.ri
+sof-v1.8-rc2	./sof-cfl.ldc -> sof-cnl.ldc
+sof-v1.8-rc2	./sof-cfl.ri -> intel-signed/sof-cfl.ri
+sof-v1.8-rc2	./sof-cml.ldc -> sof-cnl.ldc
+sof-v1.8-rc2	./sof-cml.ri -> intel-signed/sof-cml.ri
+sof-v1.8-rc2	./sof-cnl.ri -> intel-signed/sof-cnl.ri
+sof-v1.8-rc2	./sof-ehl.ldc -> sof-tgl.ldc
+sof-v1.8-rc2	./sof-ehl.ri -> intel-signed/sof-ehl.ri
+sof-v1.8-rc2	./sof-glk.ldc -> sof-apl.ldc
+sof-v1.8-rc2	./sof-glk.ri -> intel-signed/sof-glk.ri
+sof-v1.8-rc2	./sof-icl.ri -> intel-signed/sof-icl.ri
+sof-v1.8-rc2	./sof-jsl.ri -> intel-signed/sof-jsl.ri
+sof-v1.8-rc2	./sof-tgl-h.ri -> intel-signed/sof-tgl-h.ri
+sof-v1.8-rc2	./sof-tgl.ri -> intel-signed/sof-tgl.ri
+sof-v2.2	./community/sof-adl-s.ri -> sof-tgl-h.ri
+sof-v2.2	./community/sof-adl.ri -> sof-tgl.ri
+sof-v2.2	./sof-adl-s.ldc -> sof-tgl-h.ldc
+sof-v2.2	./sof-adl-s.ri -> intel-signed/sof-adl-s.ri
+sof-v2.2	./sof-adl.ldc -> sof-tgl.ldc
+sof-v2.2	./sof-adl.ri -> intel-signed/sof-adl.ri

@@ -6,6 +6,8 @@ set_constants()
     TOP_DIR=$(cd "${TESTS_DIR}"/.. && pwd)
     REFS="$TESTS_DIR"/refs/
     EXTR_REFS="$TESTS_DIR"/extracted_refs/
+    # shellcheck disable=SC2034
+    STATIC_REFS="$TESTS_DIR"/static_refs/
 
     GITHUB_RELEASES='https://github.com/thesofproject/sof-bin/releases/download'
 }
