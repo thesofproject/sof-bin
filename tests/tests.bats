@@ -38,15 +38,26 @@ teardown()
 }
 
 @test "tarball_topologies_only 2.2.1" {
-    test_tarball_topologies_only v2.2.x v2.2.1
+    local ver=v2.2.1
+    test_init
+    get_release "$ver"/sof-tplg-"$ver".tar.gz
+    # These should have never been there
+    # rm "$EXTR_REFS"/sof-tplg-v2.2.1/cavs-*.tplg
+    test_tarball_topologies_only v2.2.x "$ver"
 }
 
 @test "tarball_topologies_only 2.1.1a" {
-    test_tarball_topologies_only v2.1.x v2.1.1a
+    local ver=v2.1.1a
+    test_init
+    get_release "$ver"/sof-tplg-"$ver".tar.gz
+    test_tarball_topologies_only v2.1.x "$ver"
 }
 
 @test "tarball_topologies_only 1.9.3-tplg2" {
-    test_tarball_topologies_only v1.9.x v1.9.3-tplg2
+    local ver=v1.9.3-tplg2
+    test_init
+    get_release "$ver"/sof-tplg-"$ver".tar.gz
+    test_tarball_topologies_only v1.9.x "$ver"
 }
 
 @test "tarball_multi_2_1_1a" {
@@ -86,11 +97,7 @@ test_tarball_one_version()
 
 test_tarball_topologies_only()
 {
-    test_init
-
     local dir="$1" ver="$2"
-
-    get_release "$ver"/sof-tplg-"$ver".tar.gz
 
     "$TOP_DIR"/tarball_topologies_only.sh "$dir"/"$ver"
     tar xf sof-tplg-"$ver".tar.gz
