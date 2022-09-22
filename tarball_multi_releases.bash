@@ -86,7 +86,7 @@ main()
     )
 
     # Delete everything else
-    rm -r "${archive_name:?}"/* "${archive_name:?}"/.github
+    rm -rf "${archive_name:?}"/* "${archive_name:?}"/.github
 
     # Move the selected things back in place
     (set -x; mv _selected_versions/* "$archive_name"/ )
