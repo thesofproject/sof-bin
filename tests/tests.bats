@@ -37,6 +37,14 @@ teardown()
     test_tarball_one_version v1.8.x v1.8	v1.8
 }
 
+@test "tarball_multi_releases single 2.1.1" {
+    test_tarball_multi_single v2.1.x v2.1.1
+}
+
+@test "tarball_multi_releases single 1.8" {
+    test_tarball_multi_single v1.8.x v1.8
+}
+
 @test "tarball_topologies_only 2.2.1" {
     local ver=v2.2.1
     test_init
@@ -92,6 +100,27 @@ test_tarball_one_version()
     "$TOP_DIR"/tarball_one_version.sh "$dir"/"$ver" "$optional_git_tag"
     tar xf sof-bin-"$ver".tar.gz
     diff -qr "$EXTR_REFS"/sof-bin-"$ver"  "$(pwd)/sof-bin-$ver"/
+    popd || exit 1
+}
+
+# Test the ability of the newer "multi" script to recreate older, single
+# version releases that were created with the older
+# tarball_one_version.sh
+test_tarball_multi_single()
+{
+    local vdir="$1"
+    local ver="$2"
+    test_init
+    get_release "$ver"/sof-bin-"$ver".tar.gz
+
+    "$TOP_DIR"/tarball_multi_releases.bash -g "$ver" \
+              "$vdir"/sof-"$ver" "$vdir"/sof-tplg-"$ver" "$vdir"/tools-"$ver"
+    tar xf sof-bin-"$ver".tar.gz
+
+    # Cheat a little bit; these files are brand new.
+    rm sof-bin-"$ver"/manifest.txt sof-bin-"$ver"/sha256sum.txt
+
+    diff -qr "$EXTR_REFS"/sof-bin-"$ver" sof-bin-"$ver"
     popd || exit 1
 }
 
