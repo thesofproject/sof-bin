@@ -121,6 +121,8 @@ main()
           radix=${d%-WIP}
           ( set -x; mv "$d" "${radix}-$last_ver")
       done
+      # for install.sh convenience
+      touch "$last_ver"
     )
 
     local manifest_file="$archive_name"/manifest.txt
