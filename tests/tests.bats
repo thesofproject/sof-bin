@@ -61,8 +61,7 @@ teardown()
 }
 
 @test "tarball_multi_2_1_1a" {
-    pushd "$RUN_DIR"/ || exit 1
-    load 'common_helpers.bash';  set_constants
+    test_init
 
     "$TOP_DIR"/tarball_multi_releases.bash \
       v2.2.x/sof-v2.2  v1.8.x/sof-v1.8-rc2  v1.9.x/tools-v1.9-rc1/ \
@@ -74,6 +73,7 @@ teardown()
     popd || exit 1
 }
 
+# You MUST call popd at the end
 test_init()
 {
     pushd "$RUN_DIR"/ || exit 1
