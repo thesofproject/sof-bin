@@ -69,7 +69,7 @@ teardown()
     test_tarball_topologies_only v1.9.x "$ver"
 }
 
-@test "tarball_multi_2_1_1a" {
+@test "tarball_multi fake_2_1_1a" {
     test_init
 
     "$TOP_DIR"/tarball_multi_releases.bash \
@@ -81,6 +81,24 @@ teardown()
     done
     popd || exit 1
 }
+
+# First real release made this way
+@test "tarball_multi 2.2.2" {
+    local ver=v2.2.2
+    test_init
+
+    get_release "$ver"/sof-bin-"$ver".tar.gz
+
+    "$TOP_DIR"/tarball_multi_releases.bash -g "$ver"     \
+              v2.2.x/sof-v2.2 v2.2.x/tools-v2.2          \
+              v2.2.x/sof-tplg-v2.2.1/ v2.2.x/sof-"$ver"
+    tar xf sof-bin-"$ver".tar.gz
+
+    diff -qr "$EXTR_REFS"/sof-bin-"$ver"  "$(pwd)/sof-bin-$ver"/
+
+    popd || exit 1
+}
+
 
 # You MUST call popd at the end
 test_init()
