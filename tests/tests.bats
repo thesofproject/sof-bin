@@ -69,6 +69,64 @@ teardown()
     test_tarball_topologies_only v1.9.x "$ver"
 }
 
+@test "install 2.1.1" {
+    test_install_one_version v2.1.x v2.1.1
+}
+
+@test "install 1.8-rc2" {
+    test_install_one_version v1.8.x v1.8-rc2
+}
+
+test_install_one_version()
+{
+    local vdir="$1" ver="$2"
+    test_init
+
+    if false; then # download it
+       get_release "$ver"/sof-bin-"$ver".tar.gz
+       rsync -a "$EXTR_REFS"/sof-bin-"$ver"  .
+    else
+        # (re-)build it. No network needed but extra test dependency on
+        # tarball_one_version.sh.
+        "$TOP_DIR"/tarball_one_version.sh "$vdir"/"$ver" "$ver"
+        tar xf sof-bin-"$ver".tar.gz
+    fi
+
+    # "Upgrade" install.sh to the latest, uncommited version because
+    # that's what we're testing here!
+    cp "$TOP_DIR"/install.sh ./sof-bin-"$ver"/
+
+    # Work from a copy to preserve the extracted tarball pristine, see below.
+    # Use some white space in dir names to catch quoting issues.
+    local fromdir="./from sof-bin $ver"/
+    rsync -a ./sof-bin-"$ver"/ "$fromdir"
+
+    local todir; todir="$(pwd)/to installed"
+    ( set -e
+      cd "$fromdir"
+      FW_DEST="$todir"
+      TOOLS_DEST="$todir"/tools
+      mkdir "$FW_DEST" "$TOOLS_DEST"
+      export FW_DEST TOOLS_DEST
+      test -e "$ver"
+      ./install.sh "$ver"
+    )
+    # Nothing must have changed in the extracted tarball $fromdir
+    diff -qr ./sof-bin-"$ver"/ "$fromdir"
+
+    local refdir="$fromdir"
+    # to compare with the (potentially dirty) git checkout:
+#    local refdir="$TOP_DIR/$vdir"
+
+    for suffix in '' -tplg; do
+        diff -qr "$refdir/sof${suffix}-$ver"/ "$todir"/sof"$suffix"/
+    done
+    diff -qr "$refdir/tools-$ver"/ "$todir"/tools/
+
+    popd || exit 1
+}
+
+
 @test "tarball_multi fake_2_1_1a" {
     test_init
 
