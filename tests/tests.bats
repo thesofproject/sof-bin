@@ -49,8 +49,9 @@ teardown()
     local ver=v2.2.1
     test_init
     get_release "$ver"/sof-tplg-"$ver".tar.gz
-    # These should have never been there
-    rm "$EXTR_REFS"/sof-tplg-v2.2.1/cavs-*.tplg
+    # These should have never been there.
+    # -f needed to run multiple times.
+    rm -f "$EXTR_REFS"/sof-tplg-v2.2.1/cavs-*.tplg
     test_tarball_topologies_only v2.2.x "$ver"
 }
 
