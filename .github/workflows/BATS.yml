@@ -20,4 +20,4 @@ jobs:
         with: {fetch-depth: 0}
 
       - name: run tests
-        run: bats tests/tests.bats
+        run: bats -j 4 tests/tests.bats
