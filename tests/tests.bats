@@ -101,16 +101,17 @@ test_install_one_version()
     local fromdir="./from sof-bin $ver"/
     rsync -a ./sof-bin-"$ver"/ "$fromdir"
 
-    local todir; todir="$(pwd)/to installed"
-    ( set -e
-      cd "$fromdir"
-      FW_DEST="$todir"
-      TOOLS_DEST="$todir"/tools
-      mkdir "$FW_DEST" "$TOOLS_DEST"
-      export FW_DEST TOOLS_DEST
-      test -e "$ver"
-      ./install.sh "$ver"
-    )
+    local todir; todir="to installed"
+
+    # Empty file for shell completion convenience
+    test -e "$fromdir/$ver" || {
+        printf 'Missing empty file: %s\n' "$fromdir/$ver"
+        exit 1
+    }
+
+    mkdir "$todir" "$todir"/tools
+    FW_DEST="$todir" TOOLS_DEST="$todir"/tools "$fromdir"/install.sh "$fromdir/$ver"
+
     # Nothing must have changed in the extracted tarball $fromdir
     diff -qr ./sof-bin-"$ver"/ "$fromdir"
 
