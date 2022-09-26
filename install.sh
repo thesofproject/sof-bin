@@ -25,8 +25,16 @@ main()
 {
     test "$#" -eq 1 || usage
 
+    # Never empty, dirname returns "." instead (opengroup.org)
     local path; path=$(dirname "$1")
     local ver; ver=$(basename "$1")
+    local sdir sloc
+
+    for sdir in sof sof-tplg; do
+        sloc="$path/$sdir-$ver"
+        test -d "$sloc" ||
+            die "%s not found\n" "$sloc"
+    done
 
     # Do this first so we can fail immediately and not leave a
     # half-install behind
