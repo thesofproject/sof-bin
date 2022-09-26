@@ -46,7 +46,12 @@ main()
 
         for sdir in sof sof-ipc4 sof-ace-tplg sof-tplg; do
             if test -e "$path/$sdir${optversuffix}" ; then
-                ( set -x; ln -sT "$sdir-$ver" "${FW_DEST}/$sdir" ) || {
+                # Test workaround. Currently enough to run the whole test suite on Darwin
+                case "$(uname)" in
+                    Darwin) safer_ln=;;
+                    *) safer_ln='--no-target-directory';;
+                esac
+                ( set -x; ln -s $safer_ln "$sdir-$ver" "${FW_DEST}/$sdir" ) || {
                     set +x
                     die '%s already installed? (Re)move it first.\n' "${FW_DEST}/$sdir"
                 }
