@@ -17,7 +17,15 @@ jobs:
         run: sudo apt-get -y install bats
 
       - uses: actions/checkout@v2
-        with: {fetch-depth: 0}
+        with:
+          fetch-path: 0  # some tests need release tags
+          path: sof-bin
+
+      # For sof/tools/sof_ri_info.py
+      - uses: actions/checkout@v2
+        with:
+          repository: thesofproject/sof
+          path: sof
 
       - name: run tests
-        run: bats -j 4 tests/tests.bats
+        run: cd sof-bin && git fetch --tags && bats -j 4 tests/*.bats

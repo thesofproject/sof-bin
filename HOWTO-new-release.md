@@ -80,6 +80,10 @@ Release
 
      ./tarball_multi_releases.bash -h
 
+  Extract the tarball you just generated and verify it:
+
+    ./compare_signed_unsigned.py sof-bin-new-version/
+
   Do not publish this test tarball before your final sof-bin pull
   request has been merged. Extract this test tarball you just generated
   and test its short `./install.sh` script. Move your older firmware
