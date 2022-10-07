@@ -25,7 +25,7 @@ get_release()
 
     ( cd "$REFS"/ || exit 1
       # Same logic as above
-      test -e "$tgz" || wget "$GITHUB_RELEASES"/"$1"
+      test -e "$tgz" || wget --no-verbose "$GITHUB_RELEASES"/"$1"
     )
 
     ( cd "$EXTR_REFS"/ || exit 1
