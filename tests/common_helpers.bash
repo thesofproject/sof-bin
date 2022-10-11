@@ -5,7 +5,7 @@ set_constants()
     # shellcheck disable=SC2034
     TOP_DIR=$(cd "${TESTS_DIR}"/.. && pwd)
     REFS="$TESTS_DIR"/refs/
-    EXTR_REFS="$TESTS_DIR"/extracted_refs/
+    EXTR_REFS="$TESTS_DIR"/refs_extracted
     # shellcheck disable=SC2034
     STATIC_REFS="$TESTS_DIR"/static_refs/
 
