@@ -7,7 +7,7 @@ from pathlib import Path
 import logging
 
 # https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html#case-3-importing-from-parent-directory
-sys.path.insert(1, os.path.join(sys.path[0], '../sof/tools/sof_ri_info'))
+sys.path.insert(1, os.path.join(sys.path[0], "../sof/tools/sof_ri_info"))
 import sof_ri_info
 
 logging.basicConfig(level=logging.INFO)
@@ -151,13 +151,12 @@ def compare_same_basename(basename: str, locations: List[str]) -> TestResults:
     return res
 
 
-def main(argv) -> int:
-    "Main function"
+def compare_scanned_dir(d):
 
-    basename_locs = find_ri_files(argv[1])
+    basename_locs = find_ri_files(d)
 
     if len(basename_locs) == 0:
-        raise Exception("No *.ri file found in directory '%s'", argv[1])
+        raise Exception("No *.ri file found in directory '%s'" % d)
 
     # different, comparison, errors, skipped
     results = TestResults(0, 0, 0, 0)
@@ -173,6 +172,16 @@ def main(argv) -> int:
         results.skipped,
     )
     return results.different + results.errors
+
+
+def main(argv) -> int:
+    "Main function"
+
+    # TODO: argparse
+    if len(argv) == 2:
+        return compare_scanned_dir(argv[1])
+    else:
+        raise Exception("Requires 1 directory")
 
 
 if __name__ == "__main__":
