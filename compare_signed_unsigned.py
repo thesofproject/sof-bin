@@ -85,6 +85,24 @@ def checksum_parsed_fw(src_path: Path, parsed_fw):
     return chksum, output_file
 
 
+def files_match(fpath0: Path, fpath1: Path):
+
+    fpaths = [fpath0, fpath1]
+    parsed_fws = [sof_ri_info.parse_fw_bin(str(f), False, False) for f in fpaths]
+
+    sum0, out0 = checksum_parsed_fw(fpath0, parsed_fws[0])
+    sum1, out1 = checksum_parsed_fw(fpath1, parsed_fws[1])
+
+    if sum0 != sum1:
+        logging.error("MISMATCH: %s\tis different from\t%s", fpath0, fpath1)
+        return False
+
+    logging.info("match  OK: %s\tis the same as\t%s", fpath0, fpath1)
+    os.remove(out0)
+    os.remove(out1)
+    return True
+
+
 def compare_same_basename(basename: str, locations: List[str]) -> TestResults:
     "Used sof_ri_info to compare the same filename in multiple locations"
 
@@ -180,8 +198,10 @@ def main(argv) -> int:
     # TODO: argparse
     if len(argv) == 2:
         return compare_scanned_dir(argv[1])
+    elif len(argv) == 3:
+        return 0 if files_match(Path(argv[1]), Path(argv[2])) else 1
     else:
-        raise Exception("Requires 1 directory")
+        raise Exception("Requires 1 directory or 2 files")
 
 
 if __name__ == "__main__":
