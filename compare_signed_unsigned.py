@@ -62,6 +62,29 @@ class TestResults:
         )
 
 
+def checksum_parsed_fw(src_path: Path, parsed_fw):
+
+    d = src_path.parent
+    if Path(d).is_absolute():
+        # Drop the initial '/'
+        output_dir = Path("reproducible_images", *Path(d).parts[1:])
+    else:
+        output_dir = Path("reproducible_images", d)
+
+    Path.mkdir(output_dir, parents=True, exist_ok=True)
+
+    output_file = output_dir / src_path.name
+
+    # Erase the signature and other variables before checksumming
+    logging.debug("EraseVariables %s -> %s", src_path, output_file)
+    chksum = sof_ri_info.EraseVariables(src_path, parsed_fw, output_file)
+    assert (
+        chksum is not None
+    ), "this requires sof_ri_info.py version 1e4236be68f7b or above"
+
+    return chksum, output_file
+
+
 def compare_same_basename(basename: str, locations: List[str]) -> TestResults:
     "Used sof_ri_info to compare the same filename in multiple locations"
 
@@ -87,22 +110,7 @@ def compare_same_basename(basename: str, locations: List[str]) -> TestResults:
             res.errors += 1
             continue
 
-        if Path(d).is_absolute():
-            # Drop the initial '/'
-            output_dir = Path("reproducible_images", *Path(d).parts[1:])
-        else:
-            output_dir = Path("reproducible_images", d)
-
-        Path.mkdir(output_dir, parents=True, exist_ok=True)
-        output_file = output_dir / basename
-
-        # Erase the signature and other variables before checksumming
-        logging.debug("EraseVariables %s -> %s", src_path, output_file)
-        chksum = sof_ri_info.EraseVariables(src_path, parsed_fw, output_file)
-        assert (
-            chksum is not None
-        ), "this requires sof_ri_info.py version 1e4236be68f7b or above"
-
+        chksum, output_file = checksum_parsed_fw(src_path, parsed_fw)
         dirs_chksum[d] = (chksum, output_file)
 
     # 2. Compare checksums
