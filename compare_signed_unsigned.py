@@ -98,10 +98,12 @@ def compare_same_basename(basename: str, locations: List[str]) -> TestResults:
 
         # Erase the signature and other variables before checksumming
         logging.debug("EraseVariables %s -> %s", src_path, output_file)
-        dirs_chksum[d] = (
-            sof_ri_info.EraseVariables(src_path, parsed_fw, output_file),
-            output_file,
-        )
+        chksum = sof_ri_info.EraseVariables(src_path, parsed_fw, output_file)
+        assert (
+            chksum is not None
+        ), "this requires sof_ri_info.py version 1e4236be68f7b or above"
+
+        dirs_chksum[d] = (chksum, output_file)
 
     # 2. Compare checksums
     if len(dirs_chksum) == 0:
