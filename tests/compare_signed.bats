@@ -82,7 +82,10 @@ test_init()
             # be combined with v2.2
             *v2.2.x/sof-v2.2.2)
                 assert_eq_signed $status 6;;
-
+            # First release using Zephyr as RTOS w/ known checksum issue,
+            # fixed by Zephyr mainline commit f896fc2306
+            *v2.3.x/sof-v2.3)
+                assert_eq_signed $status 6;;
 
             # No difference or error expected
             *)
