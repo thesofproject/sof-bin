@@ -78,6 +78,10 @@ test_init()
             # only a release candidate, not worth the time analyzing it.
             *v2.2.x/sof-v2.2-rc1)
                 assert_eq_signed $status 12;;
+            # v2.2 ADL-N prod-signed FW has a known checksum issue.
+            # No impact for end user.
+            *v2.2.x/sof-v2.2)
+                assert_eq_signed $status 1;;
             # v2.2.2 has been folded back into v2.2 and is now empty.
             *v2.2.x/sof-v2.2.2)
                 continue;;
