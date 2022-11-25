@@ -20,6 +20,7 @@ ed32cc8e67d453da7873a0e0ee43a26e0447b83a0b980a5f62a5ab600cac2f34	sof-v2.1.1a/./c
 e20540a41ac8be7718ea17263f495824ab6ca04ec5062c0048942ef69d10d29b	sof-v2.1.1a/./community/sof-jsl.ri
 2ab7fc689cc7f560bd209fbdcd6e5c38e536e9b9435963943a34cdd34df990d4	sof-v2.1.1a/./community/sof-tgl-h.ri
 700848108549ea32c020fa506d58a75f8c03adf6fd014600edb9de4858d7e8ef	sof-v2.1.1a/./community/sof-tgl.ri
+8433390e4abfe40b251ff3dec41604e7b817501d1097d51aa2f51c11444d3bf0	sof-v2.1.1a/./intel-signed/sof-adl-n.ri
 1bddc1c6e26de3ae37f914305a0d619fa51e1b2fa3ebc5a64550b3464cf13188	sof-v2.1.1a/./intel-signed/sof-adl-s.ri
 294e5a51b1d3fc4ceda57780927c2a2ec95bb5d23477f879a9fb648c6c01cb30	sof-v2.1.1a/./intel-signed/sof-adl.ri
 4d97921846fe979b1295cfd46a62f159b118e70e9aa8fefe91820a7a2431d018	sof-v2.1.1a/./intel-signed/sof-apl.ri

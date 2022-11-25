@@ -40,6 +40,7 @@ sof-v1.8-rc2	./sof-jsl.ldc
 sof-v1.8-rc2	./sof-tgl.ldc
 sof-v1.8-rc2	./sof-tgl-h.ldc
 sof-v2.2	./intel-signed/sof-adl.ri
+sof-v2.2	./intel-signed/sof-adl-n.ri
 sof-v2.2	./intel-signed/sof-adl-s.ri
 tools-v1.9-rc1	./sof-logger
 
@@ -66,12 +67,15 @@ sof-v1.8-rc2	./sof-icl.ri -> intel-signed/sof-icl.ri
 sof-v1.8-rc2	./sof-jsl.ri -> intel-signed/sof-jsl.ri
 sof-v1.8-rc2	./sof-tgl-h.ri -> intel-signed/sof-tgl-h.ri
 sof-v1.8-rc2	./sof-tgl.ri -> intel-signed/sof-tgl.ri
+sof-v2.2	./community/sof-adl-n.ri -> sof-tgl.ri
 sof-v2.2	./community/sof-adl-s.ri -> sof-tgl-h.ri
 sof-v2.2	./community/sof-adl.ri -> sof-tgl.ri
 sof-v2.2	./community/sof-rpl-s.ri -> sof-tgl-h.ri
 sof-v2.2	./community/sof-rpl.ri -> sof-tgl.ri
 sof-v2.2	./intel-signed/sof-rpl-s.ri -> sof-adl-s.ri
 sof-v2.2	./intel-signed/sof-rpl.ri -> sof-adl.ri
+sof-v2.2	./sof-adl-n.ldc -> sof-tgl.ldc
+sof-v2.2	./sof-adl-n.ri -> intel-signed/sof-adl-n.ri
 sof-v2.2	./sof-adl-s.ldc -> sof-tgl-h.ldc
 sof-v2.2	./sof-adl-s.ri -> intel-signed/sof-adl-s.ri
 sof-v2.2	./sof-adl.ldc -> sof-tgl.ldc
