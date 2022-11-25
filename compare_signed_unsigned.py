@@ -47,10 +47,11 @@ def find_ri_files(topdir: str) -> Dict[str, List[str]]:
 
 
 class TestResults:
-    def __init__(self, d, c, f, s):
+    def __init__(self, d, c, f, w, s):
         self.different = d
         self.comparisons = c
         self.errors = f
+        self.warnings = w
         self.skipped = s
 
     def __add__(self, o):
@@ -58,6 +59,7 @@ class TestResults:
             self.different + o.different,
             self.comparisons + o.comparisons,
             self.errors + o.errors,
+            self.warnings + o.warnings,
             self.skipped + o.skipped,
         )
 
@@ -106,7 +108,7 @@ def files_match(fpath0: Path, fpath1: Path):
 def compare_same_basename(basename: str, locations: List[str]) -> TestResults:
     "Used sof_ri_info to compare the same filename in multiple locations"
 
-    res = TestResults(0, 0, 0, 0)
+    res = TestResults(0, 0, 0, 0, 0)
 
     if len(locations) == 1:
         logging.info("Only one location for %s, skipped", Path(locations[0], basename))
@@ -118,8 +120,8 @@ def compare_same_basename(basename: str, locations: List[str]) -> TestResults:
     for d in locations:
         src_path = Path(d, basename)
         if not src_path.exists():
-            logging.error("Broken symlink? Failed %s", src_path)
-            res.errors += 1
+            logging.warning("Broken symlink? %s", src_path)
+            res.warnings += 1
             continue
         try:
             parsed_fw = sof_ri_info.parse_fw_bin(str(src_path), False, False)
@@ -135,7 +137,7 @@ def compare_same_basename(basename: str, locations: List[str]) -> TestResults:
     if len(dirs_chksum) == 0:
         # e.g.: all broken symlinks
         logging.warning("Zero valid instance of %s", basename)
-        res.errors += 1
+        res.warnings += 1
         return res
 
     first_dir = next(iter(dirs_chksum.keys()))
@@ -176,17 +178,18 @@ def compare_scanned_dir(d):
     if len(basename_locs) == 0:
         raise Exception("No *.ri file found in directory '%s'" % d)
 
-    # different, comparison, errors, skipped
-    results = TestResults(0, 0, 0, 0)
+    # different, comparison, errors, warnings, skipped
+    results = TestResults(0, 0, 0, 0, 0)
 
     for basename in basename_locs:
         results = results + compare_same_basename(basename, basename_locs[basename])
 
     logging.info(
-        "%d different / %d comparisons; %d errors; %d skipped",
+        "%d different / %d comparisons; %d errors; %d warnings; %d skipped",
         results.different,
         results.comparisons,
         results.errors,
+        results.warnings,
         results.skipped,
     )
     return results.different + results.errors
