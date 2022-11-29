@@ -78,10 +78,9 @@ test_init()
             # only a release candidate, not worth the time analyzing it.
             *v2.2.x/sof-v2.2-rc1)
                 assert_eq_signed $status 12;;
-            # First RPL release, only 6 broken symbolic links meant to
-            # be combined with v2.2
+            # v2.2.2 has been folded back into v2.2 and is now empty.
             *v2.2.x/sof-v2.2.2)
-                assert_eq_signed $status 6;;
+                continue;;
             # First release using Zephyr as RTOS w/ known checksum issue,
             # fixed by Zephyr mainline commit f896fc2306
             *v2.3.x/sof-v2.3)
