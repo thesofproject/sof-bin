@@ -68,7 +68,15 @@ sof-v1.8-rc2	./sof-tgl-h.ri -> intel-signed/sof-tgl-h.ri
 sof-v1.8-rc2	./sof-tgl.ri -> intel-signed/sof-tgl.ri
 sof-v2.2	./community/sof-adl-s.ri -> sof-tgl-h.ri
 sof-v2.2	./community/sof-adl.ri -> sof-tgl.ri
+sof-v2.2	./community/sof-rpl-s.ri -> sof-tgl-h.ri
+sof-v2.2	./community/sof-rpl.ri -> sof-tgl.ri
+sof-v2.2	./intel-signed/sof-rpl-s.ri -> sof-adl-s.ri
+sof-v2.2	./intel-signed/sof-rpl.ri -> sof-adl.ri
 sof-v2.2	./sof-adl-s.ldc -> sof-tgl-h.ldc
 sof-v2.2	./sof-adl-s.ri -> intel-signed/sof-adl-s.ri
 sof-v2.2	./sof-adl.ldc -> sof-tgl.ldc
 sof-v2.2	./sof-adl.ri -> intel-signed/sof-adl.ri
+sof-v2.2	./sof-rpl-s.ldc -> sof-tgl-h.ldc
+sof-v2.2	./sof-rpl-s.ri -> intel-signed/sof-rpl-s.ri
+sof-v2.2	./sof-rpl.ldc -> sof-tgl.ldc
+sof-v2.2	./sof-rpl.ri -> intel-signed/sof-rpl.ri
