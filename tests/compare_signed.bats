@@ -91,6 +91,7 @@ test_init()
             *)
                 assert_eq_signed $status 0;;
         esac
+        printf '\n\n'
     done
 
     popd || return 1
@@ -121,7 +122,7 @@ assert_eq_signed()
     local actual=$1 expected=$2
 
     test "$actual" -eq "$expected" || {
-        >&2 printf 'Expected %d, got %d from %s\n\n\n' \
+        >&2 printf 'FAIL: expected %d, got %d from %s\n' \
             "$expected" "$actual" "$BATS_RUN_COMMAND"
             false
     }
