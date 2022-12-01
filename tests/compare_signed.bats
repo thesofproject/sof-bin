@@ -100,8 +100,13 @@ test_init()
 run_compare_signed()
 {
     local sofv="$1"
+    local run_cmd=("$TOP_DIR"/compare_signed_unsigned.py "$sofv")
 
-    run "$TOP_DIR"/compare_signed_unsigned.py "$sofv"
+    unset BATS_RUN_COMMAND
+    run "${run_cmd[@]}"
+    # BATS_RUN_COMMAND is not available in bats version 1.2.1
+    test -n "$BATS_RUN_COMMAND" || BATS_RUN_COMMAND="${run_cmd[*]}"
+
     # This is not modifying $output, shellcheck seems wrong
     # shellcheck disable=SC2031
     printf '%s\n' "$output"
