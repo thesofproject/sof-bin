@@ -90,6 +90,10 @@ test_init()
             *v2.3.x/sof-v2.3)
                 assert_eq_signed $status 6;;
 
+            # work still in progress, see commit message 124ac3bd6ff1
+            *v2.4.x/sof-v2.4.1)
+                assert_eq_signed $status 2;;
+
             # No difference or error expected
             *)
                 assert_eq_signed $status 0;;
