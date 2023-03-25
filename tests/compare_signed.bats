@@ -90,7 +90,25 @@ test_init()
             *v2.3.x/sof-v2.3)
                 assert_eq_signed $status 6;;
 
-            # work still in progress, see commit message 124ac3bd6ff1
+# Comparing Zephyr binaries has been a challenge due to a few
+# reproducibility bugs:
+
+# - Confirmed cmake version difference affecting the linkage order, see
+#   sof commit:  157fd098ccd6 ("require cmake version 3.21.0 or above")
+
+# - Potential git describe difference, see sof commit
+#   09386bc0d978d Revert "xtensa-build-zephyr.py: west update --depth 5 --narrow"
+
+# - 2017 xt-xcc toolchain bug triggered by length of source directory:
+#   https://github.com/thesofproject/sof/issues/7114
+
+# The first two issues have been addressed in v2.5.
+
+# The 2017 xt-xcc bug will never fixed. It comes and goes but is confirmed
+# to affect v2.4.1 and v2.5. The west topdir length threshold is 27.5
+# characters for v2.4.1 and 35.5 characters for v2.5. The west topdir length for
+# community builds has usually been 46.
+
             *v2.4.x/sof-v2.4.1)
                 assert_eq_signed $status 2;;
 
