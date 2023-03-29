@@ -94,6 +94,10 @@ test_init()
             *v2.4.x/sof-v2.4.1)
                 assert_eq_signed $status 2;;
 
+	    # v2.5 is special, it has no .ri file, only .bin files
+	    *v2.5.x/sof-v2.5)
+                assert_eq_signed $status 1;;
+
             # No difference or error expected
             *)
                 assert_eq_signed $status 0;;
