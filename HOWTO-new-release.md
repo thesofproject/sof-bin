@@ -14,6 +14,8 @@ again.
 Build the /lib/firmware/intel/sof/ tree
 ---------------------------------------
 
+- Make sure `sof/versions.json` has been kept up to date. 
+
 - After validation, create the new git tag in sof.git
 
 - Point the SOF installer to your local sof-bin clone by creating an
