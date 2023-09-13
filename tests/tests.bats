@@ -38,11 +38,11 @@ teardown()
 }
 
 @test "tarball_multi_releases single 2.1.1" {
-    test_tarball_multi_single v2.1.x v2.1.1
+    test_tarball_multi_single_pre27 v2.1.x v2.1.1
 }
 
 @test "tarball_multi_releases single 1.8" {
-    test_tarball_multi_single v1.8.x v1.8
+    test_tarball_multi_single_pre27 v1.8.x v1.8
 }
 
 @test "tarball_topologies_only 2.2.1" {
@@ -148,7 +148,7 @@ test_install_one_version()
 
     get_release "$ver"/sof-bin-"$ver".tar.gz
 
-    "$TOP_DIR"/tarball_multi_releases.bash -g "$ver"     \
+    "$TOP_DIR"/tarball_multi_releases.bash -d -g "$ver"     \
               v2.2.x/sof-v2.2 v2.2.x/tools-v2.2          \
               v2.2.x/sof-tplg-v2.2.1/ v2.2.x/sof-"$ver"
     tar xf sof-bin-"$ver".tar.gz
@@ -158,6 +158,7 @@ test_install_one_version()
     popd || exit 1
 }
 
+# TODO: add a test_multi for v2.7 or above and a corresponding install.sh test
 
 # You MUST call popd at the end
 test_init()
@@ -184,14 +185,14 @@ test_tarball_one_version()
 # Test the ability of the newer "multi" script to recreate older, single
 # version releases that were created with the older
 # tarball_one_version.sh
-test_tarball_multi_single()
+test_tarball_multi_single_pre27()
 {
     local vdir="$1"
     local ver="$2"
     test_init
     get_release "$ver"/sof-bin-"$ver".tar.gz
 
-    "$TOP_DIR"/tarball_multi_releases.bash -g "$ver" \
+    "$TOP_DIR"/tarball_multi_releases.bash -d -g "$ver" \
               "$vdir"/sof-"$ver" "$vdir"/sof-tplg-"$ver" "$vdir"/tools-"$ver"
     tar xf sof-bin-"$ver".tar.gz
 

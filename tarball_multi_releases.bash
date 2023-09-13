@@ -21,7 +21,7 @@ Example:
         $0 -g v2.3 v2.0.x/tools-v2.0 v2.1.x/sof-tplg-v2.1.1 v2.2.x/sof-v2.2.1 v2.3.x/sof-v2.3
 
 This example will create a sof-bin-v2.3.tar.gz archive; its files will
-extract in directories sof-v2.3/, tools-v2.3/ and sof-tplg-v2.3/
+extract in directories sof/, tools/, sof-tplg/, ...
 
 Synopsis:
         $0 [ -g optional_git_ref ] dir1 dir2 dir3 ...
@@ -54,7 +54,10 @@ main()
     last_ver=$(parse_version_suffix "$last_dir")
     local archive_name=sof-bin-"$last_ver"
 
-    local ver_suffix_inside_tarball="-$last_ver"
+    local ver_suffix_inside_tarball
+    if $double_dirversion_inside; then
+        ver_suffix_inside_tarball="-$last_ver"
+    fi
 
     if test -e "$archive_name"; then
         die "%s already exists\n" "$archive_name"
@@ -180,9 +183,12 @@ parse_version_suffix()
 parse_args()
 {
     GIT_REF=HEAD
+    double_dirversion_inside=false
     local opt
-    while getopts "g:h" opt; do
+    while getopts "dg:h" opt; do
         case "$opt" in
+            # undocumented option to test releases < 2.7
+            d) double_dirversion_inside=true;;
             g) GIT_REF=$OPTARG ;;
             h) usage ;;
             *) exit 1;;
