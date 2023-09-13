@@ -1,4 +1,5 @@
 #!/bin/sh
+# shellcheck disable=SC3043
 
 # Keep this script as short as possible _and_ optional - some
 # distributions don't use it at all.
@@ -16,28 +17,31 @@ usage()
 {
     cat <<EOF
 Usage example:
-        sudo $0 [v1.8.x/]v1.8
+        sudo $0 [[v1.8.x/]v1.8]
 EOF
     exit 1
 }
 
 main()
 {
-    test "$#" -eq 1 || usage
+    test "$#" -le 1 || usage
 
     # Never empty, dirname returns "." instead (opengroup.org)
     local path; path=$(dirname "$1")
     local ver; ver=$(basename "$1")
-    local sdir sloc
+    local sdir sloc optversuffix
+
+    [ -z "$ver" ] || optversuffix="-$ver"
 
     for sdir in sof sof-tplg; do
-        sloc="$path/$sdir-$ver"
+        sloc="$path/${sdir}${optversuffix}"
         test -d "$sloc" ||
             die "%s not found\n" "$sloc"
     done
 
     # Do this first so we can fail immediately and not leave a
     # half-install behind
+    if [ -n "$optversuffix" ]; then
     set -x
     for sdir in sof sof-tplg; do
         ln -sT "$sdir-$ver" "${FW_DEST}/$sdir" || {
@@ -45,10 +49,11 @@ main()
             die '%s already installed? (Re)move it first.\n' "${FW_DEST}/$sdir"
         }
     done
+    fi
 
     # Trailing slash in srcdir/ ~= srcdir/*
-    rsync -a "${path}"/sof*"$ver" "${FW_DEST}"/
-    rsync -a "${path}"/tools-"$ver"/ "${TOOLS_DEST}"/
+    rsync -a "${path}"/sof*"$optversuffix" "${FW_DEST}"/
+    rsync -a "${path}"/tools"$optversuffix"/ "${TOOLS_DEST}"/
 }
 
 die()
