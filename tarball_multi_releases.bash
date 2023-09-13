@@ -18,7 +18,7 @@ single lib/firmware/intel/sof* release tarball.
 The archive is named after the version number in the last argument.
 
 Example:
-        $0 -g v2.3 v2.0.x/tools-v2.0 v2.1.x/sof-tplg-v2.1.1 v2.2.x/sof-v2.2.1 v2.3.x/sof-v2.3
+        $0 -g v2.2.6 v2.0.x/tools-v2.0 v2.1.x/sof-tplg-v2.1.1 v2.2.x/sof-v2.2.2 v2.3.x/sof-v2.3
 
 This example will create a sof-bin-v2.3.tar.gz archive; its files will
 extract in directories sof-v2.3/, tools-v2.3/ and sof-tplg-v2.3/
