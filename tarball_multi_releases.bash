@@ -54,6 +54,8 @@ main()
     last_ver=$(parse_version_suffix "$last_dir")
     local archive_name=sof-bin-"$last_ver"
 
+    local ver_suffix_inside_tarball="-$last_ver"
+
     if test -e "$archive_name"; then
         die "%s already exists\n" "$archive_name"
     fi
@@ -119,10 +121,12 @@ main()
       set -e
       for d in *-WIP; do
           radix=${d%-WIP}
-          ( set -x; mv "$d" "${radix}-$last_ver")
+          ( set -x; mv "$d" "${radix}${ver_suffix_inside_tarball}")
       done
-      # for install.sh convenience
-      touch "$last_ver"
+      # For install.sh convenience
+      # Kept only for the ability to test releases < v2.7
+      [ -z "$ver_suffix_inside_tarball" ] ||
+          touch "$last_ver"
     )
 
     local manifest_file="$archive_name"/manifest.txt
@@ -142,7 +146,7 @@ main()
         topdir="${FILES_ORIGIN[$f]}"
         ver=$(parse_version_suffix "$topdir")
         radix=${topdir%-"$ver"}
-        printf '%s\t%s\n' "${FILES_CHKSUM[$f]}" "$radix-$last_ver/$f"
+        printf '%s\t%s\n' "${FILES_CHKSUM[$f]}" "${radix}${ver_suffix_inside_tarball}/${f}"
     done | LC_ALL=C sort -k2 > "$archive_name"/sha256sum.txt
 
     ( cd "${archive_name}"/; set -x
