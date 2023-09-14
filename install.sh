@@ -29,26 +29,29 @@ main()
     # Never empty, dirname returns "." instead (opengroup.org)
     local path; path=$(dirname "$1")
     local ver; ver=$(basename "$1")
-    local sdir sloc optversuffix
+    local sdir optversuffix
 
     [ -z "$ver" ] || optversuffix="-$ver"
-
-    for sdir in sof sof-tplg; do
-        sloc="$path/${sdir}${optversuffix}"
-        test -d "$sloc" ||
-            die "%s not found\n" "$sloc"
-    done
 
     # Do this first so we can fail immediately and not leave a
     # half-install behind
     if [ -n "$optversuffix" ]; then
-    set -x
-    for sdir in sof sof-tplg; do
-        ln -sT "$sdir-$ver" "${FW_DEST}/$sdir" || {
-            set +x
-            die '%s already installed? (Re)move it first.\n' "${FW_DEST}/$sdir"
-        }
-    done
+        if test -e "$path/sof${optversuffix}" -a -e "$path/sof-tplg${optversuffix}" ; then
+            : # SOF IPC3 SOF layout
+        elif test -e "$path/sof-ipc4${optversuffix}" -a -e "$path/sof-ace-tplg${optversuffix}" ; then
+            : # SOF IPC4 layout for Intel Meteor Lake (and newer)
+        else
+            die "Files not found or unknown FW file layout $1 \n"
+        fi
+
+        for sdir in sof sof-ipc4 sof-ace-tplg sof-tplg; do
+            if test -e "$path/$sdir${optversuffix}" ; then
+                ( set -x; ln -sT "$sdir-$ver" "${FW_DEST}/$sdir" ) || {
+                    set +x
+                    die '%s already installed? (Re)move it first.\n' "${FW_DEST}/$sdir"
+                }
+            fi
+        done
     fi
 
     # Trailing slash in srcdir/ ~= srcdir/*
