@@ -24,10 +24,22 @@ Some releases have version specific notes on installation.
 E.g. SOF v2.5 binaries require extra steps to configure the Linux
 kernel to use new IPC variant. Please see v2.5.x/README.md
 
-## Install process with install.sh
+## Install process with install.sh - release tarballs
 
 To install the release just perform a recursive copy. You can also try
 the convenience ``./install.sh`` script:
+
+```
+tar zxf sof-bin-2023.09.tar.gz
+cd sof-bin-2023.09
+sudo mv /lib/firmware/intel/sof* some_backup_location/
+sudo mv /usr/local/bin/sof-*     some_backup_location/ # optional
+sudo ./install.sh
+```
+
+## Install process with install.sh (sof-bin git tree)
+
+To run install from sof-bin git checkout:
 
 ```
 sudo mv /lib/firmware/intel/sof* some_backup_location/
