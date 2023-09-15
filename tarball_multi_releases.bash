@@ -15,12 +15,13 @@ single lib/firmware/intel/sof* release tarball.
   command line_. In case of conflict last on the command line wins.
 - Records which file came from which version in manifest.txt
 
-The archive is named after the version number in the last argument.
+The archive is named after the version number in the last argument,
+or the version passed with -r option.
 
 Example:
-        $0 -g v2.2.6 v2.0.x/tools-v2.0 v2.1.x/sof-tplg-v2.1.1 v2.2.x/sof-v2.2.2 v2.3.x/sof-v2.3
+        $0 -r v2022.09 -g v2.2.6 v2.0.x/tools-v2.0 v2.1.x/sof-tplg-v2.1.1 v2.2.x/sof-v2.2.2 v2.3.x/sof-v2.3
 
-This example will create a sof-bin-v2.3.tar.gz archive; its files will
+This example will create a sof-bin-v2022.09.tar.gz archive; its files will
 extract in directories sof/, tools/, sof-tplg/, ...
 
 Synopsis:
@@ -52,12 +53,17 @@ main()
     # shellcheck disable=SC2124
     last_dir="${TOP_DIRS[@]: -1}"
     last_ver=$(parse_version_suffix "$last_dir")
+
     local archive_name=sof-bin-"$last_ver"
+    if test -n "$release_ver"; then
+        archive_name=sof-bin-"$release_ver"
+    fi
 
     local ver_suffix_inside_tarball
     if $double_dirversion_inside; then
         ver_suffix_inside_tarball="-$last_ver"
     fi
+
 
     if test -e "$archive_name"; then
         die "%s already exists\n" "$archive_name"
@@ -184,13 +190,15 @@ parse_args()
 {
     GIT_REF=HEAD
     double_dirversion_inside=false
+    release_ver=
     local opt
-    while getopts "dg:h" opt; do
+    while getopts "dg:hr:" opt; do
         case "$opt" in
             # undocumented option to test releases < 2.7
             d) double_dirversion_inside=true;;
             g) GIT_REF=$OPTARG ;;
             h) usage ;;
+	    r) release_ver=$OPTARG ;;
             *) exit 1;;
         esac
     done
