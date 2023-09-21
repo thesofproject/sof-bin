@@ -51,8 +51,7 @@ test_init()
     popd || return 1
 }
 
-# Why does this test triggers this warning while the previous, nearly
-# identical one does not? Baffling.
+# Workaround for https://github.com/koalaman/shellcheck/issues/2431
 # shellcheck disable=SC2030
 @test "compare signed unsigned v2.*/sof-v*" {
     test_init
@@ -112,8 +111,8 @@ test_init()
             *v2.4.x/sof-v2.4.1)
                 assert_eq_signed $status 2;;
 
-	    # v2.5 is special, it has no .ri file, only .bin files
-	    *v2.5.x/sof-v2.5)
+            # v2.5 is special, it has no .ri file, only .bin files
+            *v2.5.x/sof-v2.5)
                 assert_eq_signed $status 1;;
 
             # No difference or error expected
