@@ -126,6 +126,34 @@ test_init()
 }
 
 
+# Workaround for https://github.com/koalaman/shellcheck/issues/2431
+# shellcheck disable=SC2030
+@test "compare signed unsigned v2.*/sof-ipc4-v*" {
+    test_init
+
+    local sofv
+    cd "$TOP_DIR"
+    # TODO: could we dynamically generate a list of tests from this?
+    # Probably not, BATS is likely scanning this source code.
+    for sofv in v2.*/sof-ipc4-v*; do
+
+        run_compare_signed "$sofv"
+
+        case "$sofv" in
+
+            # Special cases
+            # None yet, see above for examples
+
+            # No difference
+            *)
+                assert_eq_signed $status 0;;
+        esac
+    done
+
+    popd || return 1
+}
+
+
 run_compare_signed()
 {
     local sofv="$1"
