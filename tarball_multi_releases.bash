@@ -91,7 +91,7 @@ main()
       local _pwd; _pwd=$(pwd)
       cd "${archive_name:?}"
       rm tarball*sh
-      rm -f README-before-1.7.md
+      rm -f README-before-1.7.md .gitignore
       set -x
       mv install.sh README* LICENCE* Notice* "${_pwd}"/_selected_versions/
     )
