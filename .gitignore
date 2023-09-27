@@ -1,0 +1,6 @@
+/testruns/
+reproducible_images/
+
+# caches
+/tests/refs/
+/tests/refs_extracted/
