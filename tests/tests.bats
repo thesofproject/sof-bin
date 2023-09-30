@@ -70,7 +70,7 @@ teardown()
 }
 
 @test "install 2.1.1" {
-    test_install_one_version v2.1.x v2.1.1
+    test_install_one_version v2.1.x v2.1.1 v2.1.1
 }
 
 @test "install 1.8-rc2" {
@@ -79,7 +79,7 @@ teardown()
 
 test_install_one_version()
 {
-    local vdir="$1" ver="$2"
+    local vdir="$1" ver="$2" opt_git_tag="$3"
     test_init
 
     if false; then # download it
@@ -88,7 +88,7 @@ test_install_one_version()
     else
         # (re-)build it. No network needed but extra test dependency on
         # tarball_one_version.sh.
-        "$TOP_DIR"/tarball_one_version.sh "$vdir"/"$ver" "$ver"
+        "$TOP_DIR"/tarball_one_version.sh "$vdir"/"$ver" "$opt_git_tag"
         tar xf sof-bin-"$ver".tar.gz
     fi
 
