@@ -77,6 +77,11 @@ teardown()
     test_install_one_version v1.8.x v1.8-rc2
 }
 
+# First official IPC4 release
+@test "install ipc4 v2.7" {
+    test_install_one_version v2.7.x v2.7
+}
+
 test_install_one_version()
 {
     local vdir="$1" ver="$2" opt_git_tag="$3"
