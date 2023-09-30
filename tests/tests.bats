@@ -124,10 +124,28 @@ test_install_one_version()
 #    local refdir="$TOP_DIR/$vdir"
 
     # At last check that install.sh copied firmware, topologies,...
-    for suffix in '' -tplg; do
-        diff -qr "$refdir/sof${suffix}-$ver"/ "$todir"/sof"$suffix"/
+    # Expected directory structure:
+    # https://thesofproject.github.io/latest/getting_started/intel_debug/introduction.html#firmware-binary
+
+    # How many found
+    local n_subdirs=0 n_tplg=0
+
+    for from_subdir in "$refdir/sof"*"-$ver"; do
+        local from_base; from_base=$(basename "$from_subdir")
+        local to_base=${from_base%-"$ver"}
+        local to_subdir=$todir/$to_base
+        if [[ "$to_base" =~ ^sof.*-tplg$ ]]; then
+            : $(( n_tplg++ ))
+        fi
+        printf 'Comparing installation from "%s" to "%s"\n' \
+                 "$from_subdir" "$to_subdir"
+        diff -qr "$from_subdir" "$to_subdir"
+        : $(( n_subdirs++ ))
     done
-    # ... and tools.
+    test "$n_subdirs" -eq 2
+    test "$n_tplg" -eq 1
+
+    # Check tools install
     diff -qr "$refdir/tools-$ver"/ "$todir"/tools/
 
     popd || exit 1
