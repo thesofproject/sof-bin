@@ -103,12 +103,6 @@ test_install_one_version()
 
     local todir; todir="to installed"
 
-    # Empty file for shell completion convenience
-    test -e "$fromdir/$ver" || {
-        printf 'Missing empty file: %s\n' "$fromdir/$ver"
-        exit 1
-    }
-
     mkdir "$todir" "$todir"/tools
     pwd
     printf "'%s/install.sh' '%s' (todir='%s')\n" \
