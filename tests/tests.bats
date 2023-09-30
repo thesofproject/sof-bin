@@ -96,7 +96,7 @@ test_install_one_version()
     # that's what we're testing here!
     cp "$TOP_DIR"/install.sh ./sof-bin-"$ver"/
 
-    # Work from a copy to preserve the extracted tarball pristine, see below.
+    # Work from a $fromdir copy to preserve the extracted tarball pristine, see below.
     # Use some white space in dir names to catch quoting issues.
     local fromdir="./from sof-bin $ver"/
     rsync -a ./sof-bin-"$ver"/ "$fromdir"
@@ -110,18 +110,24 @@ test_install_one_version()
     }
 
     mkdir "$todir" "$todir"/tools
+    pwd
+    printf "'%s/install.sh' '%s' (todir='%s')\n" \
+           "$fromdir" "$fromdir/$ver" "$todir"
     FW_DEST="$todir" TOOLS_DEST="$todir"/tools "$fromdir"/install.sh "$fromdir/$ver"
 
-    # Nothing must have changed in the extracted tarball $fromdir
-    diff -qr ./sof-bin-"$ver"/ "$fromdir"
+    # Before even looking at what we just installed, make sure no
+    # unexpected accident polluted our $fromdir copy
+    diff -qr  "$fromdir" ./sof-bin-"$ver"/
 
     local refdir="$fromdir"
     # to compare with the (potentially dirty) git checkout:
 #    local refdir="$TOP_DIR/$vdir"
 
+    # At last check that install.sh copied firmware, topologies,...
     for suffix in '' -tplg; do
         diff -qr "$refdir/sof${suffix}-$ver"/ "$todir"/sof"$suffix"/
     done
+    # ... and tools.
     diff -qr "$refdir/tools-$ver"/ "$todir"/tools/
 
     popd || exit 1
