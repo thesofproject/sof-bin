@@ -164,7 +164,28 @@ test_install_one_version()
     popd || exit 1
 }
 
-# TODO: add a test_multi for v2.7 or above and a corresponding install.sh test
+# First release with v2.7
+@test "tarball_multi 2023.09" {
+    local ver=2023.09
+    test_init
+
+    get_release v"$ver"/sof-bin-"$ver".tar.gz
+
+    "$TOP_DIR"/tarball_multi_releases.bash -r $ver \
+             v2.2.x/sof-v2.2 v2.2.x/tools-v2.2 \
+             v2.2.x/sof-tplg-v2.2.1 v2.2.x/sof-tplg-v2.2.3 v2.2.x/sof-tplg-v2.2.4 \
+             v2.2.x/sof-tplg-v2.2.5 v2.2.x/sof-tplg-v2.2.6 v2.2.x/sof-tplg-v2.2.7 \
+             v2.7.x/sof-ace-tplg-v2.7 \
+             v2.7.x/sof-ipc4-v2.7 \
+             v2.7.x/tools-v2.7
+
+    tar xf sof-bin-"$ver".tar.gz
+
+    diff -qr "$EXTR_REFS"/sof-bin-"$ver"  "$(pwd)/sof-bin-$ver"/
+
+    popd || exit 1
+}
+
 
 # You MUST call popd at the end
 test_init()
