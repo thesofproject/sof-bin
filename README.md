@@ -32,8 +32,9 @@ the convenience ``./install.sh`` script:
 ```
 tar zxf sof-bin-2023.09.tar.gz
 cd sof-bin-2023.09
+mkdir some_backup_location
 sudo mv /lib/firmware/intel/sof* some_backup_location/
-sudo mv /usr/local/bin/sof-*     some_backup_location/ # optional
+sudo mv /usr/local/bin/sof-*     .some_backup_location/ # optional
 sudo ./install.sh
 ```
 
@@ -42,6 +43,7 @@ sudo ./install.sh
 To run install from sof-bin git checkout:
 
 ```
+mkdir some_backup_location
 sudo mv /lib/firmware/intel/sof* some_backup_location/
 sudo mv /usr/local/bin/sof-*     some_backup_location/ # optional
 sudo ./install.sh v1.N.x/v1.N-rcM
