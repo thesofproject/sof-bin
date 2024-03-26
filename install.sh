@@ -44,7 +44,7 @@ main()
             die "Files not found or unknown FW file layout $1 \n"
         fi
 
-        for sdir in sof sof-ipc4 sof-ace-tplg sof-tplg; do
+        for sdir in sof sof-ipc4 sof-ipc4-tplg sof-ace-tplg sof-tplg; do
             if test -e "$path/$sdir${optversuffix}" ; then
                 # Test workaround. Currently enough to run the whole test suite on Darwin
                 case "$(uname)" in
