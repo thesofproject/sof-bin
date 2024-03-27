@@ -125,6 +125,15 @@ main()
     check_symlinks "$archive_name" ||
         die "Found some broken symbolic links after combining\n"
 
+    # 2024.03 compatibility hack, add a symlink for sof-ace-tplg as per
+    # the compatibility note for Intel MTL in
+    # https://thesofproject.github.io/latest/getting_started/intel_debug/introduction.html#user-space-and-filesystem-requirements
+    ( cd "${archive_name}"
+      if test -e "sof-ipc4-tplg-WIP" -a ! -e "sof-ace-tplg-WIP" ; then
+          ln -s sof-ipc4-tplg sof-ace-tplg
+      fi
+    )
+
     # Rename sof-WIP -> sof-vX.Y, tools-WIP -> tools-vX.Y, ...
     ( cd "${archive_name}"
       set -e
