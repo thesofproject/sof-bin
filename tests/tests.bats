@@ -198,6 +198,10 @@ test_install_one_version()
 
     tar xf sof-bin-"$ver".tar.gz
 
+    # install.sh was updated in 2024.03, so it won't match
+    # anymore
+    git show v2023.12.1:install.sh > "$(pwd)/sof-bin-$ver"/install.sh
+
     diff -qr "$EXTR_REFS"/sof-bin-"$ver"  "$(pwd)/sof-bin-$ver"/
 
     popd || exit 1
