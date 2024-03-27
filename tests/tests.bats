@@ -198,7 +198,9 @@ test_install_one_version()
 
     tar xf sof-bin-"$ver".tar.gz
 
-    diff -qr "$EXTR_REFS"/sof-bin-"$ver"  "$(pwd)/sof-bin-$ver"/
+    # install.sh was updated in 2024.03, so it won't match
+    # anymore
+    diff -qr --exclude="install.sh" "$EXTR_REFS"/sof-bin-"$ver"  "$(pwd)/sof-bin-$ver"/
 
     popd || exit 1
 }
