@@ -1,5 +1,10 @@
 ## Notice on Platform Coverage
 
+While sof-bin repository is open to all vendors, in practise only
+binaries for Intel based systems have been distributed using this
+method so far. For pragmatic reasons, examples in this documentation
+use Intel binaries as examples as those are currently available.
+
 WARNING: starting with v2.2, older Intel products are not supported by
 the main SOF development branch anymore. To avoid duplication and
 confusion in this sof-bin git repository, older product generations are
@@ -36,6 +41,9 @@ sudo mv /lib/firmware/intel/sof* some_backup_location/
 sudo mv /usr/local/bin/sof-*     some_backup_location/ # optional
 sudo ./install.sh
 ```
+
+The install script is intended for Linux systems where the Linux kernel
+will look up firmware binaries under /lib/firmware.
 
 ## Install process with install.sh (sof-bin git tree)
 
