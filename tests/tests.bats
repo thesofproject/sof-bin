@@ -202,6 +202,10 @@ test_install_one_version()
     # anymore
     git show v2023.12.1:install.sh > "$(pwd)/sof-bin-$ver"/install.sh
 
+    # install.sh was updated in 2025.01, so it won't match
+    # anymore
+    git show v2023.12.1:README.md > "$(pwd)/sof-bin-$ver"/README.md
+
     diff -qr "$EXTR_REFS"/sof-bin-"$ver"  "$(pwd)/sof-bin-$ver"/
 
     popd || exit 1
