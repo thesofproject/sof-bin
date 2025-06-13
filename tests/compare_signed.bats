@@ -141,8 +141,12 @@ test_init()
 
         case "$sofv" in
 
-            # Special cases
-            # None yet, see above for examples
+            # Special cases (see above checks for examples)
+
+            # sof-PLAT-openmodules.ri have sections that break build reproducability,
+            # tracked in https://github.com/thesofproject/sof/issues/10056
+            *v2.13.x/sof-ipc4-v2.13)
+                assert_eq_signed $status 1;;
 
             # No difference
             *)
