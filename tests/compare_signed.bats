@@ -148,6 +148,11 @@ test_init()
             *v2.13.x/sof-ipc4-v2.13)
                 assert_eq_signed $status 1;;
 
+            # same issue with sof-PLAT-openmodules.ri for both PTL and WCL
+            # https://github.com/thesofproject/sof/issues/10056
+            *v2.14.x/sof-ipc4-v2.14.1)
+                assert_eq_signed $status 2;;
+
             # No difference
             *)
                 assert_eq_signed $status 0;;
