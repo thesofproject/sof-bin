@@ -4,3 +4,7 @@ reproducible_images/
 # caches
 /tests/refs/
 /tests/refs_extracted/
+__pycache__/
+*.pyc
+tests/__pycache__/
+
