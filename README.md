@@ -81,3 +81,59 @@ Remember that for `rsync` (and some versions of `cp`), a trailing slash
 in `srcdir/` is roughly equivalent to `srcdir/*` + `srcdir/.??*`  This
 is how a recursive `rsync` is always idempotent while a recursive `cp`
 is typically not.
+
+## Validating and Repairing an Installation with validate_sof_install.py
+
+To verify that the installed SOF firmware binaries, LLEXT dynamic modules,
+topologies, and userspace tools match a specific release in this repository
+using MD5 checksums:
+
+```bash
+# Identify versions of all installed SOF files on the filesystem
+./validate_sof_install.py --identify
+
+# Identify installed files with embedded binary manifest details (build date, ABI, git tags)
+./validate_sof_install.py --identify -p tgl --manifest
+
+# Identify installed files on remote DUT over SSH
+./validate_sof_install.py -i -p tgl --ssh root@spider
+
+# List available versions in sof-bin
+./validate_sof_install.py --list-versions
+
+# Validate a specific version on local /lib/firmware/intel (automatically displays manifest diffs on mismatch)
+./validate_sof_install.py --version v2.14.1
+
+# Validate with full manifest details shown for all files
+./validate_sof_install.py --version v2.14.1 --manifest
+
+# Validate only a specific platform (e.g. Tiger Lake on local host)
+./validate_sof_install.py --version v2.12 --platform tgl
+
+# Preview repairs without modifying files (--dry-run)
+./validate_sof_install.py --version v2.14.1 --platform tgl --fix --dry-run
+
+# Automatically repair/sync missing or mismatched files from sof-bin
+sudo ./validate_sof_install.py --version v2.14.1 --platform tgl --fix
+
+# Validate a remote DUT directly over SSH (supports remote --fix as well)
+./validate_sof_install.py --version v2.12 --platform tgl --ssh root@spider
+
+# Validate an offline rootfs (e.g. PXE NFS mount)
+./validate_sof_install.py --version v2.12 --platform tgl --target-root /srv/nfs/spider-rootfs
+
+# Validate Debian (.deb) package against SOF v2.14.1
+./validate_sof_install.py --deb firmware-sof-signed_2.14.1_all.deb --version v2.14.1
+
+# Validate RPM (.rpm) package against SOF v2.14.1
+./validate_sof_install.py --rpm alsa-sof-firmware-2.14.1.rpm --version v2.14.1
+
+# Auto-identify SOF release versions inside a package archive
+./validate_sof_install.py --pkg firmware-sof-signed.deb --identify
+
+# Generate a standalone md5sum manifest
+./validate_sof_install.py --version v2.14.1 --generate-md5 /tmp/v2.14.1-md5.txt
+```
+
+
+
