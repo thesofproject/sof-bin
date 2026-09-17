@@ -78,6 +78,8 @@ teardown()
 }
 
 # First official IPC4 release
+# Workaround for https://github.com/koalaman/shellcheck/issues/2431
+# shellcheck disable=SC2030
 @test "install ipc4 v2.7" {
     test_install_one_version v2.7.x v2.7
 }
@@ -146,6 +148,20 @@ test_install_one_version()
 
     # Check tools install
     diff -qr "$refdir/tools-$ver"/ "$todir"/tools/
+
+    # Sanity-check validate_sof_install.py's --tree output mode against this
+    # same installed tree: it should walk it without error and report every
+    # installed file, uncommitted changes to validate_sof_install.py included.
+    run "$TOP_DIR"/validate_sof_install.py --identify --tree --no-color \
+        -b "$TOP_DIR" -d "" --tools-dest /tools -r "$todir"
+    # This is not modifying $output, shellcheck seems wrong
+    # shellcheck disable=SC2031
+    printf '%s\n' "$output"
+    # This is not modifying $status, shellcheck seems wrong
+    # shellcheck disable=SC2031
+    test "$status" -eq 0
+    # shellcheck disable=SC2031
+    [[ "$output" == *"Total: "*" file(s)"* ]]
 
     popd || exit 1
 }
