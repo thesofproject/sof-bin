@@ -168,7 +168,16 @@ main()
     done | LC_ALL=C sort -k2 > "$archive_name"/sha256sum.txt
 
     ( cd "${archive_name}"/; set -x
-      sha256sum --quiet --check sha256sum.txt
+      # Not using 'sha256sum --check sha256sum.txt': its checksum-file
+      # parsing is not consistent across implementations (e.g., GNU
+      # coreutils vs. Rust/uutils coreutils reject our tab-separated
+      # format), so verify each entry directly instead.
+      while IFS=$'\t' read -r sum fname; do
+          test -n "$sum" || continue
+          actual=$(sha256sum "$fname" | awk '{ print $1 }')
+          test "$actual" = "$sum" ||
+              die 'checksum mismatch for %s\n' "$fname"
+      done < sha256sum.txt
     )
 
     # Final tarball
