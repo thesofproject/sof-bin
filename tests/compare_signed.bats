@@ -143,15 +143,41 @@ test_init()
 
             # Special cases (see above checks for examples)
 
-            # sof-PLAT-openmodules.ri have sections that break build reproducability,
-            # tracked in https://github.com/thesofproject/sof/issues/10056
+            # sof-ptl-openmodules.ri has a genuine XOVER module content
+            # mismatch, unrelated to module ordering.
             *v2.13.x/sof-ipc4-v2.13)
                 assert_eq_signed $status 1;;
 
-            # same issue with sof-PLAT-openmodules.ri for both PTL and WCL
-            # https://github.com/thesofproject/sof/issues/10056
-            *v2.14.x/sof-ipc4-v2.14.1)
-                assert_eq_signed $status 2;;
+            # sof-PLAT-openmodules.ri for both PTL and WCL used to be
+            # reported as different here, tracked in
+            # https://github.com/thesofproject/sof/issues/10056. That
+            # was a module-ordering artifact, not a real content
+            # difference: compare_signed_unsigned.py now reads the ADSP
+            # manifest and compares modules by name/hash instead of doing
+            # a raw whole-file diff, so this is correctly 0 now.
+
+            # No difference
+            *)
+                assert_eq_signed $status 0;;
+        esac
+    done
+
+    popd || return 1
+}
+
+
+# Workaround for https://github.com/koalaman/shellcheck/issues/2431
+# shellcheck disable=SC2030
+@test "compare signed unsigned v2.*/sof-ipc4-lib-v*" {
+    test_init
+
+    local sofv
+    cd "$TOP_DIR"
+    for sofv in v2.*/sof-ipc4-lib-v*; do
+
+        run_compare_signed "$sofv"
+
+        case "$sofv" in
 
             # No difference
             *)
