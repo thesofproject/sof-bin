@@ -2241,6 +2241,83 @@ def format_identify_table(records: List[Dict[str, Any]], colorize: bool = True, 
     return "\n".join(lines)
 
 
+def format_tree(records, colorize: bool = True, mode: str = "identify") -> str:
+    """Render installed files as a text tree, grouped by their rel_path directory hierarchy.
+
+    `records` is either a List[ValidationRecord] (mode="validate", from
+    validate_installation()) or a List[Dict[str, Any]] (mode="identify",
+    from identify_installed()) -- both expose a `rel_path`.
+    """
+    GREEN = "\033[92m" if colorize else ""
+    RED = "\033[91m" if colorize else ""
+    YELLOW = "\033[93m" if colorize else ""
+    CYAN = "\033[96m" if colorize else ""
+    MAGENTA = "\033[95m" if colorize else ""
+    BOLD = "\033[1m" if colorize else ""
+    RESET = "\033[0m" if colorize else ""
+
+    def rel_path_of(item) -> str:
+        return item.rel_path if mode == "validate" else item["rel_path"]
+
+    def leaf_label(item) -> str:
+        name = rel_path_of(item).rsplit("/", 1)[-1]
+        if mode == "validate":
+            status = item.status
+            ver = item.installed_version or "-"
+            if status in (Status.MATCH, Status.SYMLINK_MATCH):
+                return f"{GREEN}{name} [{ver}]{RESET}"
+            if status in (Status.MISMATCH, Status.SYMLINK_MISMATCH):
+                return f"{RED}{name} [MISMATCH, installed {ver}]{RESET}"
+            if status == Status.BROKEN_SYMLINK:
+                return f"{RED}{name} [BROKEN SYMLINK]{RESET}"
+            if status == Status.MISSING:
+                return f"{YELLOW}{name} [MISSING]{RESET}"
+            if status == Status.EXTRA:
+                return f"{CYAN}{name} [EXTRA]{RESET}"
+            return f"{CYAN}{name} [{status.value}]{RESET}"
+
+        ver = item["installed_version"]
+        sym_note = f" -> {item['symlink_target']}" if item.get("is_symlink") and item.get("symlink_target") else ""
+        if ver.startswith("v") or ver.startswith("20"):
+            color = GREEN
+        elif ver == "broken link":
+            color = RED
+        else:
+            color = MAGENTA
+        return f"{color}{name} [{ver}]{RESET}{sym_note}"
+
+    # Nested dict tree: siblings-dict -> {name: {"__children__": siblings-dict, "__leaf__": item}}
+    root: Dict[str, Any] = {}
+    for item in records:
+        parts = rel_path_of(item).split("/")
+        node = root
+        for seg in parts[:-1]:
+            node = node.setdefault(seg, {}).setdefault("__children__", {})
+        node.setdefault(parts[-1], {})["__leaf__"] = item
+
+    lines = [f"{BOLD}.{RESET}"]
+
+    def render(node: Dict[str, Any], prefix: str) -> None:
+        entries = sorted((k, v) for k, v in node.items() if k not in ("__children__", "__leaf__"))
+        for i, (name, sub) in enumerate(entries):
+            is_last = i == len(entries) - 1
+            connector = "└── " if is_last else "├── "
+            child_prefix = prefix + ("    " if is_last else "│   ")
+            leaf = sub.get("__leaf__")
+            grandchildren = sub.get("__children__", {})
+            if leaf is not None and not grandchildren:
+                lines.append(f"{prefix}{connector}{leaf_label(leaf)}")
+            else:
+                lines.append(f"{prefix}{connector}{BOLD}{name}/{RESET}")
+                render(grandchildren, child_prefix)
+
+    render(root, "")
+
+    lines.append("")
+    lines.append(f"{BOLD}Total: {len(records)} file(s){RESET}")
+    return "\n".join(lines)
+
+
 def generate_md5_manifest(records: List[ValidationRecord]) -> str:
     lines = []
     for r in records:
@@ -2408,6 +2485,11 @@ Examples:
         help="Output results in JSON format.",
     )
     parser.add_argument(
+        "--tree",
+        action="store_true",
+        help="Show installed files as a text tree instead of a flat table (ignored with --json/--quiet).",
+    )
+    parser.add_argument(
         "--no-color",
         action="store_true",
         help="Disable ANSI color output.",
@@ -2537,7 +2619,10 @@ def main() -> int:
                         if meta.get("architecture"):
                             pkg_title += f" [{meta['architecture']}]"
                         print(f"Target: {pkg_title} ({meta['file']})")
-                print(format_identify_table(identified, colorize=use_color, show_manifest=args.manifest))
+                if args.tree:
+                    print(format_tree(identified, colorize=use_color, mode="identify"))
+                else:
+                    print(format_identify_table(identified, colorize=use_color, show_manifest=args.manifest))
             return 0
 
         if not args.version:
@@ -2610,7 +2695,10 @@ def main() -> int:
                     if meta.get("architecture"):
                         pkg_title += f" [{meta['architecture']}]"
                     print(f"Target: {pkg_title} ({meta['file']})")
-            print(format_table(records, colorize=use_color, show_manifest=args.manifest))
+            if args.tree:
+                print(format_tree(records, colorize=use_color, mode="validate"))
+            else:
+                print(format_table(records, colorize=use_color, show_manifest=args.manifest))
             if args.fix:
                 print("\n" + ("=" * 80))
                 mode_tag = "[DRY-RUN FIX]" if args.dry_run else "[FIX]"
