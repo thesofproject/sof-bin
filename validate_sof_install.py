@@ -123,13 +123,36 @@ def compute_file_md5(file_path: Path, block_size: int = 65536) -> Optional[str]:
         return None
 
 
+def extract_signing_key_hash(data: bytes) -> Optional[str]:
+    """
+    Extract a stable identifier for the RSA signing key embedded in a signed
+    firmware (.ri) or LLEXT CSS manifest ($MN2), as the sha256 of the raw
+    modulus bytes.
+
+    Layout (relative to the offset of the "$MN2" header_id string itself,
+    matching sof/tools/sof_ri_info.py's parse_css_manifest_4()):
+    modulus_size (u32, in dwords) at +92, modulus bytes starting at +100.
+    """
+    pos_mn2 = data.find(b"$MN2")
+    if pos_mn2 == -1:
+        return None
+    try:
+        modulus_size = struct.unpack_from("<I", data, pos_mn2 + 92)[0]
+        modulus = data[pos_mn2 + 100 : pos_mn2 + 100 + modulus_size * 4]
+        if modulus_size == 0 or len(modulus) != modulus_size * 4:
+            return None
+        return hashlib.sha256(modulus).hexdigest()
+    except Exception:
+        return None
+
+
 def parse_binary_manifest(data: bytes) -> Dict[str, Any]:
     """
     Parse embedded manifest and metadata from firmware (.ri), LLEXT (.llext/.bin),
     and topology (.tplg) binaries.
-    
+
     Supports:
-    - CSS headers ($MN2): BCD build date (YYYY-MM-DD)
+    - CSS headers ($MN2): BCD build date (YYYY-MM-DD), signing key identity
     - ADSP FW header ($AM1): SOF major/minor/hotfix/build version, component name, modules
     - Extended Manifest (XMan): FW version, ABI version, date/time strings
     - Embedded build strings: Zephyr version/commit, SOF tags
@@ -151,6 +174,9 @@ def parse_binary_manifest(data: bytes) -> Dict[str, Any]:
                 info["build_date"] = f"{year:04d}-{month:02d}-{day:02d}"
         except Exception:
             pass
+        signing_key_hash = extract_signing_key_hash(data)
+        if signing_key_hash:
+            info["signing_key_hash"] = signing_key_hash
 
     # 2. ADSP FW Manifest ($AM1)
     pos_am1 = data.find(b"$AM1")
@@ -246,6 +272,62 @@ def parse_binary_manifest(data: bytes) -> Dict[str, Any]:
             pass
 
     return info
+
+
+def compare_signing_keys(dir_a: Path, dir_b: Path) -> Tuple[int, List[str]]:
+    """
+    Compare the Intel signing-key identity of every .ri/.llext file found
+    under dir_a against the same relative path under dir_b (e.g. a previous
+    point release vs the current one).
+
+    A file present under only one of the two directories is reported
+    informationally (new/removed platform or file), never as an error. A
+    mismatched signing_key_hash for a path present on both sides is an error.
+    """
+    def collect(root: Path) -> Dict[str, Path]:
+        found: Dict[str, Path] = {}
+        for path in sorted(root.rglob("*")):
+            if path.is_file() and path.suffix in (".ri", ".llext"):
+                found[str(path.relative_to(root))] = path
+        return found
+
+    files_a = collect(dir_a)
+    files_b = collect(dir_b)
+
+    report: List[str] = []
+    error_count = 0
+    match_count = 0
+
+    for rel_path in sorted(set(files_a) | set(files_b)):
+        path_a = files_a.get(rel_path)
+        path_b = files_b.get(rel_path)
+        if path_a is None:
+            report.append(f"INFO: {rel_path}: only present in {dir_b} (new file)")
+            continue
+        if path_b is None:
+            report.append(f"INFO: {rel_path}: only present in {dir_a} (removed file)")
+            continue
+
+        hash_a = extract_signing_key_hash(path_a.read_bytes())
+        hash_b = extract_signing_key_hash(path_b.read_bytes())
+        if hash_a is None or hash_b is None:
+            report.append(f"INFO: {rel_path}: not signed (or unsigned) on one or both sides, skipping")
+            continue
+        if hash_a != hash_b:
+            error_count += 1
+            report.append(
+                f"ERROR: {rel_path}: signing key changed! "
+                f"{dir_a}={hash_a[:16]} {dir_b}={hash_b[:16]}"
+            )
+        else:
+            match_count += 1
+            report.append(
+                f"OK: {rel_path}: signing key unchanged "
+                f"{dir_a}={hash_a[:16]} {dir_b}={hash_b[:16]}"
+            )
+
+    report.append(f"Signing key continuity: {match_count} matched, {error_count} mismatched")
+    return error_count, report
 
 
 def format_manifest_summary(man: Optional[Dict[str, Any]]) -> str:
@@ -1043,6 +1125,12 @@ def _build_remote_manifest_script() -> str:
         "            d = ((d_raw >> 4) & 0xf) * 10 + (d_raw & 0xf)\n"
         "            if 1970 <= y <= 2099 and 1 <= m <= 12 and 1 <= d <= 31:\n"
         "                info['build_date'] = f'{y:04d}-{m:02d}-{d:02d}'\n"
+        "        except Exception: pass\n"
+        "        try:\n"
+        "            mod_sz = struct.unpack_from('<I', data, p_mn2 + 92)[0]\n"
+        "            modulus = data[p_mn2 + 100 : p_mn2 + 100 + mod_sz * 4]\n"
+        "            if mod_sz and len(modulus) == mod_sz * 4:\n"
+        "                info['signing_key_hash'] = hashlib.sha256(modulus).hexdigest()\n"
         "        except Exception: pass\n"
         "    p_am1 = data.find(b'$AM1')\n"
         "    if p_am1 != -1 and p_am1 + 52 <= len(data):\n"
@@ -2504,12 +2592,27 @@ Examples:
         action="store_true",
         help="Strict mode: fail on any missing optional files or symlink differences.",
     )
+    parser.add_argument(
+        "--compare-signing-keys",
+        nargs=2,
+        default=None,
+        metavar=("PREV_DIR", "CURR_DIR"),
+        help="Compare Intel signing-key identity of matching .ri/.llext files between two "
+             "version directories (e.g. a previous and current point release) and exit. "
+             "Files present in only one directory are reported informationally, not as errors.",
+    )
 
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_arguments()
+
+    if args.compare_signing_keys:
+        prev_dir, curr_dir = (Path(p) for p in args.compare_signing_keys)
+        error_count, report_lines = compare_signing_keys(prev_dir, curr_dir)
+        print("\n".join(report_lines))
+        return 1 if error_count else 0
 
     try:
         repo = SofBinRepo.find_repo(args.sof_bin_dir)
